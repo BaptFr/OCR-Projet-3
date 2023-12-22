@@ -1,25 +1,32 @@
 
-// Call API //
-const apiUrl = 'http://localhost:5678/api/works';
-fetch(apiUrl)
+// URL //
+const projetsUrl = "http://localhost:5678/api/works";
+const categoriesUrl ="http://localhost:5678/api/categories";
+
+let allProjets = [];
+
+//Call API Projets //
+fetch(projetsUrl)
     .then(response => {
         if (!response.ok) {
-            throw new Error('Erreur réseau ou problème de serveur');
+            throw new Error("Network error or server problems");
         }
         return response.json();
     })
     .then(data => {
-        console.log('Données de l\'API :', data);
+        allProjets = data;
+        console.log("Projets gallery Api  datas: ", allProjets);
         updateGallery(data);
     })
     .catch(error => {
-        console.error('Erreur lors de la récupération des données de l\'API :', error);
+        console.error("API Projets data return error", error);
     });
 
 
-// Function API Projets gallery  //
+// Function  Projets gallery  //
+
 function updateGallery(apiProjets) {
-const galleryElement = document.querySelector('.gallery');
+const galleryElement = document.querySelector(".gallery");
 
 if (!galleryElement) {
     console.error("API Projets datas unfound.");
@@ -31,15 +38,15 @@ else{
 galleryElement.innerHTML = '';
 
 apiProjets.forEach(item => {
-    const imageContainer = document.createElement('div');
-    imageContainer.classList.add('image-container');
+    const imageContainer = document.createElement("div");
+    imageContainer.classList.add("image-container");
 
-    const imageElement = document.createElement('img');
+    const imageElement = document.createElement("img");
     imageElement.src = item.imageUrl; 
     imageElement.alt = item.title; 
 
-    const titleElement = document.createElement('p');
-    titleElement.classList.add('title');
+    const titleElement = document.createElement("p");
+    titleElement.classList.add("title");
     titleElement.textContent = item.title;
 
     imageContainer.appendChild(imageElement);
@@ -47,7 +54,82 @@ apiProjets.forEach(item => {
     galleryElement.appendChild(imageContainer);
 
     console.log("API loading Projets gallery OK.");
-
 });}
 }
 
+
+// Categories
+
+
+fetch(categoriesUrl)
+    .then(response => {
+      return response.json();
+    })
+    .then(filters => {
+      const filtersContainer = document.querySelector(".categories");
+      const filtersList = document.createElement("ul");
+
+      const allProjetsFilter = { id: "all", name: "Tous" };
+      filters.unshift(allProjetsFilter); 
+
+    for (let i = 0; i < filters.length; i++) {
+        const filter = filters[i];
+        const filterItem = document.createElement("li");
+        const filterLink = document.createElement("a");
+        filterLink.href = '#';
+        filterLink.textContent = filter.name;
+
+
+        filtersList.appendChild(filterItem);
+        filterItem.appendChild(filterLink);
+
+        filtersContainer.style.margin= "50px 0px";
+
+        filtersList.style.width = "100%";
+        filtersList.style.display = "flex";
+        filtersList.style.flexDirection = "row";
+        filtersList.style.justifyContent = "center";
+        filtersList.style.gap = "10px";
+        filtersList.style.margin = "0";
+
+        filterItem.style.margin = "0px";
+        filterItem.style.minWidth ="90px";
+        filterItem.style.padding = "9px 15px";
+        filterItem.style.color = "#1D6154";
+        filterItem.style.textAlign = "center";
+        filterItem.style.fontFamily = "Syne";
+        filterItem.style.fontSize = "16px";
+        filterItem.style.fontStyle ="normal";
+        filterItem.style.border = "1px solid";
+        filterItem.style.borderRadius ="60px";
+
+        filterLink.style.textDecoration = "none"; 
+        filterLink.style.color = "#1D6154";
+        
+        const filtersContainerDiv = document.createElement("div");
+        filtersContainerDiv.classList.add("filters-container");
+        filtersContainerDiv.appendChild(filtersList);
+        filtersContainer.appendChild(filtersContainerDiv);
+
+        filterLink.addEventListener("click", () => {
+            console.log("Filter name, category and id :", filter.name, ",", filter.id);
+            filterProjectsByCategory(filter.id);
+        })
+      }
+    })
+
+    .then(data =>{
+        console.log("Categories loading OK.");
+    })
+  
+    .catch(error => console.error("Error loading Categories from API", error));
+
+    function filterProjectsByCategory(categoryId) {
+        if (categoryId === "all") {
+            updateGallery(allProjets);
+        } else {
+            const filteredProjets = allProjets.filter(projet => projet.categoryId === categoryId);
+            updateGallery(filteredProjets);
+        }
+        console.log("Projets filtered.")
+    }
