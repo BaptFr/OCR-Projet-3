@@ -1,12 +1,10 @@
 
 // URL //
-const projetsUrl = "http://localhost:5678/api/works";
-const categoriesUrl ="http://localhost:5678/api/categories";
-
+const baseUrl = "http://localhost:5678";
 
 //Call API Projets //
 let allProjets = [];
-fetch(projetsUrl)
+fetch(baseUrl + "/api/works")
     .then(response => {
         if (!response.ok) {
             throw new Error("Network error or server problems");
@@ -58,7 +56,7 @@ apiProjets.forEach(item => {
 
 
 // Categories & filters //
-fetch(categoriesUrl)
+fetch(baseUrl + "/api/categories")
     .then(response => {
         return response.json();
     })
@@ -80,13 +78,12 @@ fetch(categoriesUrl)
             filterItem.appendChild(filterLink);
 
             // Filters style //
-
             filtersContainer.style.margin= "50px 0px";
             filtersList.style.width = "100%";
             filtersList.style.display = "flex";
             filtersList.style.flexDirection = "row";
             filtersList.style.justifyContent = "center";
-            filtersList.style.gap = "15px";
+            filtersList.style.gap = "10px";
             filtersList.style.margin = "0";
            
             filterItem.classList.add("active");
@@ -113,11 +110,11 @@ fetch(categoriesUrl)
 
             //Filters evenListener //
             filterLink.addEventListener("click", () => {
-                console.log("Filter name, category and id :", filter.name, ",", filter.id);
+                console.log("Filter name :", filter.name, ", category and id :", filter.id);
                 filterProjectsByCategory(filter.id);
                 activateFilter(filterItem);
                 activateFilterStyle(filterLink);
-            
+        
             });
 
            
@@ -131,7 +128,6 @@ fetch(categoriesUrl)
 
 
             //Filter function
-
     function filterProjectsByCategory(categoryId) {
         if (categoryId === "all") {
             updateGallery(allProjets);
@@ -144,7 +140,6 @@ fetch(categoriesUrl)
 
 
         //Filter activation &  desactivation //
-
     function activateFilter(activeFilterItem){
         const allFilterItems = document.querySelectorAll(".categories li");
         allFilterItems.forEach(item => {
@@ -167,15 +162,12 @@ fetch(categoriesUrl)
     activeFilterLink.style.color = "white"; 
     }
 
+
+    //Navbar//
+    document.getElementById("nav-login").addEventListener("click", function (){
+        window.location.href = "login.html";
+      });
+
     
-        // LOGIN //
-
-document.getElementById("nav-login").addEventListener("click", function (){
-    //console.log("LOGIN")
-
-
-})
-
-
-
+ 
     
