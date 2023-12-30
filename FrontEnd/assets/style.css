@@ -166,6 +166,7 @@ a {
 
 .gallery {
 	width: 100%;
+	margin-top: 60px ;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-column-gap: 20px;
@@ -373,15 +374,3 @@ footer nav ul {
 }
 
 
-//* EDIT PROJETS *//
-
-.projets-edit { 
-	display:flex;
-	flex-direction: row;
-	justify-content: center;
-}
-
-#projets-edit-title {
-	margin: 0;
-
-}

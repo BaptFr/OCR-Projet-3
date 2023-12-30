@@ -63,12 +63,12 @@ fetch(baseUrl + "/api/categories")
     .then(filters => {
         const filtersContainer = document.querySelector(".categories");
         const filtersList = document.createElement("ul");
-
         const allProjetsFilter = { id: "all", name: "Tous" };
         filters.unshift(allProjetsFilter); 
 
         for (let i = 0; i < filters.length; i++) { 
             const filter = filters[i];
+
             const filterItem = document.createElement("li");
             const filterLink = document.createElement("a");
             filterLink.href = '#';
@@ -78,7 +78,7 @@ fetch(baseUrl + "/api/categories")
             filterItem.appendChild(filterLink);
 
             // Filters style //
-            filtersContainer.style.margin= "50px 0px";
+            filtersContainer.style.margin= "60px 0px 0px 0px";
             filtersList.style.width = "100%";
             filtersList.style.display = "flex";
             filtersList.style.flexDirection = "row";
@@ -108,7 +108,7 @@ fetch(baseUrl + "/api/categories")
             filtersContainerDiv.appendChild(filtersList);
             filtersContainer.appendChild(filtersContainerDiv);
 
-            //Filters evenListener //
+            // Filters eventListener //
             filterLink.addEventListener("click", () => {
                 console.log("Filter name :", filter.name, ", category and id :", filter.id);
                 filterProjectsByCategory(filter.id);
@@ -127,35 +127,35 @@ fetch(baseUrl + "/api/categories")
     .catch(error => console.error("Error loading Categories from API", error));
 
 
-            //Filter function
-    function filterProjectsByCategory(categoryId) {
-        if (categoryId === "all") {
-            updateGallery(allProjets);
-        } else {
-            const filteredProjets = allProjets.filter(projet => projet.categoryId === categoryId);
-            updateGallery(filteredProjets);
-        }
-        console.log("Projets filtered.")
+        // Filter function //
+function filterProjectsByCategory(categoryId) {
+    if (categoryId === "all") {
+        updateGallery(allProjets);
+    } else {
+    const filteredProjets = allProjets.filter(projet => projet.categoryId === categoryId);
+    updateGallery(filteredProjets);
     };
+    console.log("Projets filtered.")
+};
 
 
-        //Filter activation &  desactivation //
-    function activateFilter(activeFilterItem){
-        const allFilterItems = document.querySelectorAll(".categories li");
-        allFilterItems.forEach(item => {
-            item.classList.remove("active");
-            item.style.backgroundColor = "white";
+    // Filter activation &  desactivation //
+function activateFilter(activeFilterItem){
+    const allFilterItems = document.querySelectorAll(".categories li");
+    allFilterItems.forEach(item => {
+        item.classList.remove("active");
+        item.style.backgroundColor = "white";
         });
     
     activeFilterItem.classList.add("active");
     activeFilterItem.style.backgroundColor = "#1D6154";     
-    }
+}
 
-    function activateFilterStyle(activeFilterLink) {
-        const allFiltersLinks=document.querySelectorAll(".categories a");
-        allFiltersLinks.forEach(link => {
-            link.classList.remove("active");
-            link.style.color = "#1D6154";
+function activateFilterStyle(activeFilterLink) {
+    const allFiltersLinks=document.querySelectorAll(".categories a");
+    allFiltersLinks.forEach(link => {
+        link.classList.remove("active");
+        link.style.color = "#1D6154";
     });
 
     activeFilterLink.classList.add("active");
@@ -163,11 +163,77 @@ fetch(baseUrl + "/api/categories")
     }
 
 
-    //Navbar//
-    document.getElementById("nav-login").addEventListener("click", function (){
-        window.location.href = "login.html";
-      });
+    //Navbar Hypertext Login link//
+const login = document.getElementById("nav-login");
 
-    
- 
-    
+function loginRedirection (){
+    window.location.href = "login.html";
+};
+
+login.addEventListener("click", loginRedirection);
+
+
+//EDIT MODE after connection //
+document.addEventListener('DOMContentLoaded', function () {
+    if (localStorage.getItem("loginSuccess") === 'true') {
+        console.log("Login Edit mode access");
+        editVersStyle();
+    }
+});
+
+function editVersStyle() {
+    console.log("changements à faire"); //A SUPPRIMER  aide //
+    navbarEditVers();
+    filtersEditVers ();
+    galleryEditLinks ();
+    //editGalleryStyle
+    //editGalleryMod
+}
+
+function navbarEditVers (){
+    const logout = document.getElementById("nav-login");  
+    logout.textContent = "Logout";
+    login.removeEventListener("click", loginRedirection);
+    login.addEventListener("click", logoutRedirection);
+
+}
+
+function logoutRedirection (){
+    window.location.href = index.html; //Logout changes  //
+}
+
+function filtersEditVers () {
+    const hideCategories = document.querySelector(".categories")
+    const galleryStyle = document.querySelector(".gallery")
+    hideCategories.style.display = "none";
+    galleryStyle.style.marginTop = "92px";
+
+}
+
+function galleryEditLinks(){
+    const editPlace = document.querySelector(".projets-title");
+    const editLogo = document.createElement("img");
+        editLogo.src = "assets/icons/group.png";
+        editLogo.alt = "logo-edit";
+        editLogo.href ="#";
+        editLogo.style.margin = "7px 10px 0px 31px";
+        
+        
+    const editLink = document.createElement("a");
+        editLink.textContent = "modifier" ; 
+        editLink.href ="#";
+        editLink.style.margin ="11px 0px 0px 0px"
+
+        
+    const editStyle = document.querySelector(".projets-title");
+        editStyle.style.display = "flex";
+        editStyle.style.justifyContent ="center";
+        editStyle.style.flexDirection ="row";
+        editStyle.style.alignItems ="flex-start";
+        editStyle.style.margin = " 30px 0px 0px 110px";
+        editStyle.style.height = "30px"
+
+    editPlace.appendChild(editLogo);
+    editPlace.appendChild(editLink);
+
+}
