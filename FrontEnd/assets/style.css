@@ -69,11 +69,7 @@ header {
 	margin: 50px 0px; 
 }
 
-#instagram-logo{
-	width: 22px;
-	height: 22px;
-	
-}
+
 section {
 	margin: 50px 0
 }
@@ -372,5 +368,73 @@ footer nav ul {
 	color:red;
 	font-weight: bold;
 }
+
+.modal {
+	position: fixed;
+	display: flex;
+	width: 630px;
+	height: 688px;
+	background-color: #FFFEF8;
+	border-radius: 10px;
+}
+
+.modal-gallery {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.modal-close{
+	width: 24px;
+	height: 24px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	right: 30px;
+	top: 30px;
+	border: none;
+	background-color: transparent;
+	cursor: pointer;
+}
+
+#modal1-title{
+	margin: 60px 228px 598px 229px;
+	color: #000;
+	text-align: center;
+	font-family: Work Sans;
+	font-size: 26px;
+	font-weight: 400;
+}
+
+.modal-gallery{
+
+}
+
+hr {
+	width: 420px;
+	height: 0px;
+	position: absolute;
+	right: 105px;
+	bottom: 110px;
+    color: #B3B3B3;
+    border: 1px solid #B3B3B3;
+}
+
+.modal1-button{
+	position:  absolute;
+	bottom: 45px;
+	right: 198px;
+	width: 237px;
+	height: 36px;
+	border: 1px solid;
+	border-radius: 60px;
+	background-color: #1D6154;
+	color: #FFF;
+	font-family: Syne;
+	font-size: 14px;
+	font-weight:  400;
+}
+
 
 

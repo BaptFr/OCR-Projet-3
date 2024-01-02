@@ -2,6 +2,7 @@
 // URL //
 const baseUrl = "http://localhost:5678";
 
+
 //Call API Projets //
 let allProjets = [];
 fetch(baseUrl + "/api/works")
@@ -23,112 +24,102 @@ fetch(baseUrl + "/api/works")
 
 // Function Projets gallery  //
 function updateGallery(apiProjets) {
-const galleryElement = document.querySelector(".gallery");
+    const galleryElement = document.querySelector(".gallery");
+    if (!galleryElement) {
+         console.error("API Projets datas unfound.");
+        return;
+    }else{
+        galleryElement.innerHTML = '';
+        apiProjets.forEach(item => {
+            const imageContainer = document.createElement("div");
+            imageContainer.classList.add("image-container");
 
-if (!galleryElement) {
-    console.error("API Projets datas unfound.");
-    return;
-}
+            const imageElement = document.createElement("img");
+            imageElement.src = item.imageUrl; 
+            imageElement.alt = item.title; 
 
-else{
+            const titleElement = document.createElement("p");
+            titleElement.classList.add("title");
+            titleElement.textContent = item.title;
 
-galleryElement.innerHTML = '';
+            imageContainer.appendChild(imageElement);
+            imageContainer.appendChild(titleElement);
+            galleryElement.appendChild(imageContainer);
 
-apiProjets.forEach(item => {
-    const imageContainer = document.createElement("div");
-    imageContainer.classList.add("image-container");
-
-    const imageElement = document.createElement("img");
-    imageElement.src = item.imageUrl; 
-    imageElement.alt = item.title; 
-
-    const titleElement = document.createElement("p");
-    titleElement.classList.add("title");
-    titleElement.textContent = item.title;
-
-    imageContainer.appendChild(imageElement);
-    imageContainer.appendChild(titleElement);
-    galleryElement.appendChild(imageContainer);
-
-    console.log("API loading Projets gallery OK.");
-});}
+            console.log("API loading Projets gallery OK.");
+        });
+    }
 }
 
 
-// Categories & filters //
-fetch(baseUrl + "/api/categories")
-    .then(response => {
-        return response.json();
-    })
-    .then(filters => {
-        const filtersContainer = document.querySelector(".categories");
-        const filtersList = document.createElement("ul");
-        const allProjetsFilter = { id: "all", name: "Tous" };
-        filters.unshift(allProjetsFilter); 
+// CATEGORIES & FILTERS //
 
-        for (let i = 0; i < filters.length; i++) { 
-            const filter = filters[i];
-
-            const filterItem = document.createElement("li");
-            const filterLink = document.createElement("a");
-            filterLink.href = '#';
-            filterLink.textContent = filter.name;
-
-            filtersList.appendChild(filterItem);
-            filterItem.appendChild(filterLink);
-
-            // Filters style //
-            filtersContainer.style.margin= "60px 0px 0px 0px";
-            filtersList.style.width = "100%";
-            filtersList.style.display = "flex";
-            filtersList.style.flexDirection = "row";
-            filtersList.style.justifyContent = "center";
-            filtersList.style.gap = "10px";
-            filtersList.style.margin = "0";
-           
-            filterItem.classList.add("active");
-            filterItem.style.margin = "0px";
-            filterItem.style.minWidth ="90px";
-            filterItem.style.padding = "10px";
-            filterItem.style.color = "#1D6154";
-            filterItem.style.textAlign = "center";
-            filterItem.style.fontFamily = "Syne";
-            filterItem.style.fontSize = "16px";
-            filterItem.style.fontStyle ="normal";
-            filterItem.style.border = "1px solid";
-            filterItem.style.borderRadius ="60px";
-
-            filterLink.classList.add("active");
-            filterLink.style.textDecoration = "none"; 
-            filterLink.style.color = "#1D6154";
-
-                
-            const filtersContainerDiv = document.createElement("div");
-            filtersContainerDiv.classList.add("filters-container");
-            filtersContainerDiv.appendChild(filtersList);
-            filtersContainer.appendChild(filtersContainerDiv);
-
-            // Filters eventListener //
-            filterLink.addEventListener("click", () => {
-                console.log("Filter name :", filter.name, ", category and id :", filter.id);
-                filterProjectsByCategory(filter.id);
-                activateFilter(filterItem);
-                activateFilterStyle(filterLink);
-        
-            });
-
-           
-        }
-    })
+//Filters create elements
+function createFilterElement(filter) {
+    const filterItem = document.createElement("li");
+    const filterLink = document.createElement("a");
+    filterLink.href = '#';
+    filterLink.textContent = filter.name;
     
-    .then(data =>{
-        console.log("Categories loading OK.");
+    filterItem.appendChild(filterLink);
+    filterItem.classList.add("active");
+    
+    filterLink.classList.add("active");
+    filterLink.style.textDecoration = "none";
+    filterLink.style.color = "#1D6154";
+    //Filters style
+    filterItem.style.margin = "0px";
+    filterItem.style.minWidth = "90px";
+    filterItem.style.padding = "10px";
+    filterItem.style.color = "#1D6154";
+    filterItem.style.textAlign = "center";
+    filterItem.style.fontFamily = "Syne";
+    filterItem.style.fontSize = "16px";
+    filterItem.style.fontStyle = "normal";
+    filterItem.style.border = "1px solid";
+    filterItem.style.borderRadius = "60px";
+    // Filters eventListener
+    filterLink.addEventListener("click", () => {
+        console.log("Filter name :", filter.name, ", category and id :", filter.id);
+        filterProjectsByCategory(filter.id);
+        activateFilter(filterItem);
+        activateFilterStyle(filterLink);
+    });
+    return filterItem;
+}
+
+//Filters Container    
+const filtersContainer = document.querySelector(".categories");
+const filtersList = document.createElement("ul");
+filtersContainer.style.margin = "60px 0px 0px 0px";
+filtersList.style.width = "100%";
+filtersList.style.display = "flex";
+filtersList.style.flexDirection = "row";
+filtersList.style.justifyContent = "center";
+filtersList.style.gap = "10px";
+filtersList.style.margin = "0";
+    
+//Fetch API & DOM add
+fetch(baseUrl + "/api/categories")
+    .then(response => response.json())
+    .then(filters => {
+        const allProjetsFilter = { id: "all", name: "Tous" };
+        filters.unshift(allProjetsFilter);
+        filters.forEach(filter => {
+            const filterItem = createFilterElement(filter);
+            filtersList.appendChild(filterItem);
+        });
+        const filtersContainerDiv = document.createElement("div");
+        filtersContainerDiv.classList.add("filters-container");
+        filtersContainerDiv.appendChild(filtersList);
+        filtersContainer.appendChild(filtersContainerDiv);
     })
     .catch(error => console.error("Error loading Categories from API", error));
 
-
-        // Filter function //
+//Filters use function
 function filterProjectsByCategory(categoryId) {
+
+    const projects = document.querySelectorAll('.gallery .project');
     if (categoryId === "all") {
         updateGallery(allProjets);
     } else {
@@ -139,14 +130,13 @@ function filterProjectsByCategory(categoryId) {
 };
 
 
-    // Filter activation &  desactivation //
+// Filter activation &  desactivation 
 function activateFilter(activeFilterItem){
     const allFilterItems = document.querySelectorAll(".categories li");
     allFilterItems.forEach(item => {
         item.classList.remove("active");
         item.style.backgroundColor = "white";
         });
-    
     activeFilterItem.classList.add("active");
     activeFilterItem.style.backgroundColor = "#1D6154";     
 }
@@ -157,23 +147,20 @@ function activateFilterStyle(activeFilterLink) {
         link.classList.remove("active");
         link.style.color = "#1D6154";
     });
-
     activeFilterLink.classList.add("active");
     activeFilterLink.style.color = "white"; 
-    }
+}
 
-
-    //Navbar Hypertext Login link//
+//NAVBAR Hypertext Login link//
 const login = document.getElementById("nav-login");
-
-function loginRedirection (){
+login.addEventListener("click", () => {
     window.location.href = "login.html";
-};
-
-login.addEventListener("click", loginRedirection);
+});
 
 
-//EDIT MODE after connection //
+
+// EDIT VERSION AFTER LOGIN//
+//After connection 
 document.addEventListener('DOMContentLoaded', function () {
     if (localStorage.getItem("loginSuccess") === 'true') {
         console.log("Login Edit mode access");
@@ -181,27 +168,59 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+// EDIT VERS style  //
 function editVersStyle() {
-    console.log("changements à faire"); //A SUPPRIMER  aide //
+    editVersBanner();
     navbarEditVers();
     filtersEditVers ();
-    galleryEditLinks ();
-    //editGalleryStyle
+    modalEditLinks (); 
+    console.log("Modifs OK (RAPPEL MODIFS) "); //----------A SUPPR    ---------//
     //editGalleryMod
 }
 
+//EDIT VERS Banner //
+function editVersBanner (){
+    const editBandDiv= document.querySelector(".editBand");
+        editBandDiv.style.backgroundColor = "#000000";
+        editBandDiv.style.color ="#FFFFFF";
+        editBandDiv.style.height = "59px";
+        editBandDiv.style.width = "1440px";
+        editBandDiv.style.marginLeft = "-150px";
+        editBandDiv.style.marginBottom = "-12px";
+        editBandDiv.style.display ="flex";
+        editBandDiv.style.justifyContent = "center";
+        editBandDiv.style.alignItems ="center";
+        editBandDiv.style.gap ="11.5px";
+
+    const editBandLogo = document.createElement("i");
+        editBandLogo.classList.add("fa-regular", "fa-pen-to-square");
+
+    const editBandTitle = document.createElement("a");
+        editBandTitle.textContent = "Mode édition"
+        editBandTitle.style.fontSize ="16px";
+        editBandTitle.style.display = "inline-block"; 
+        editBandTitle.style.lineHeight = "4"; 
+
+    editBandDiv.appendChild(editBandLogo);
+    editBandDiv.appendChild(editBandTitle);   
+}
+
+//EDIT VERS Navbar logout//
 function navbarEditVers (){
     const logout = document.getElementById("nav-login");  
     logout.textContent = "Logout";
-    login.removeEventListener("click", loginRedirection);
+    login.removeEventListener("click", login);
     login.addEventListener("click", logoutRedirection);
 
 }
 
+//Logout redirection//
 function logoutRedirection (){
-    window.location.href = index.html; //Logout changes  //
+    localStorage.removeItem("loginSuccess"); 
+    window.location.href = "index.html";
 }
 
+//EDIT VERS Categories//
 function filtersEditVers () {
     const hideCategories = document.querySelector(".categories")
     const galleryStyle = document.querySelector(".gallery")
@@ -210,21 +229,22 @@ function filtersEditVers () {
 
 }
 
-function galleryEditLinks(){
-    const editPlace = document.querySelector(".projets-title");
+//EDIT VERS Gallery links//
+function modalEditLinks(){   
+    let modal = null;
+    const editPosition = document.querySelector(".projets-title");
     const editLogo = document.createElement("img");
         editLogo.src = "assets/icons/group.png";
         editLogo.alt = "logo-edit";
-        editLogo.href ="#";
+        editLogo.href ="#modal1";
+        editLogo.classList.add("js-modal");
         editLogo.style.margin = "7px 10px 0px 31px";
-        
         
     const editLink = document.createElement("a");
         editLink.textContent = "modifier" ; 
-        editLink.href ="#";
-        editLink.style.margin ="11px 0px 0px 0px"
-
-        
+        editLink.href ="#modal1";
+        editLink.classList.add("js-modal");
+        editLink.style.margin ="11px 0px 0px 0px";
     const editStyle = document.querySelector(".projets-title");
         editStyle.style.display = "flex";
         editStyle.style.justifyContent ="center";
@@ -233,7 +253,40 @@ function galleryEditLinks(){
         editStyle.style.margin = " 30px 0px 0px 110px";
         editStyle.style.height = "30px"
 
-    editPlace.appendChild(editLogo);
-    editPlace.appendChild(editLink);
+    editPosition.appendChild(editLogo);
+    editPosition.appendChild(editLink);
 
+    const openModal = function(e) {   
+        e.preventDefault ();
+        const target = document.querySelector(e.target.getAttribute("href"));
+        target.style.display = "flex";
+        target.removeAttribute("aria-hidden");
+        target.setAttribute("aria-modal", "true");
+        modal = target;
+        modal.addEventListener("click", closeModal);
+        modal.querySelector(".modal-close").addEventListener("click", closeModal);
+        console.log("Modal openin OK")
+    }
+
+    const closeModal = function(e){
+        console.log("Fermeture de la modal");
+        if (modal === null) return;
+        e.preventDefault();
+        modal.style.display = "none";
+        modal.setAttribute("aria-hidden", "true");
+        modal.removeAttribute("aria-modal");
+        modal.removeEventListener("click", closeModal);
+        modal.querySelector(".modal-close").removeEventListener("click", closeModal)
+        modal = null;   
+    };
+
+    editLogo.addEventListener("click", openModal);
+    editLink.addEventListener("click", openModal);
 }
+
+
+
+
+
+
+
