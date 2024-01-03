@@ -57,7 +57,6 @@ async function submitForm(){
   catch (error) {
     console.error("Connexion error", error);
   }
-
 };
   
 

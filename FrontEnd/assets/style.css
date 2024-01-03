@@ -59,9 +59,8 @@ body {
 main {
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
 	align-items: center;
-
+	
 }
 header {
 	display: flex;
@@ -121,6 +120,7 @@ a {
 
 #introduction {
 	width: 100%;
+	margin: 50px 0px 0px 0px;
 	display: flex;
 	justify-content: center ;
 	align-items: center;
@@ -153,6 +153,7 @@ a {
 
 #portfolio{
 	width: 82%;
+	margin-top: 0;
 }
 
 #portfolio h2 {
@@ -160,9 +161,15 @@ a {
 	margin-bottom: 1em;
 }
 
+.modal-section{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 .gallery {
 	width: 100%;
-	margin-top: 60px ;
+	margin-top: 51px ;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-column-gap: 20px;
@@ -367,18 +374,38 @@ footer nav ul {
 #error-message{
 	color:red;
 	font-weight: bold;
-}
+
+
+}/*** MODAL ***/
+
 
 .modal {
+	z-index: 1000;
 	position: fixed;
+	top: 5%;
 	display: flex;
+	justify-content: center;
 	width: 630px;
 	height: 688px;
 	background-color: #FFFEF8;
 	border-radius: 10px;
 }
 
-.modal-gallery {
+.modal-overlay {
+	z-index: 999; 
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5); 
+	display: none;
+  }
+
+  
+.projets-modal {
+	width: 100%;
+	height: 100%;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -399,7 +426,10 @@ footer nav ul {
 }
 
 #modal1-title{
-	margin: 60px 228px 598px 229px;
+	position: absolute;
+	top: 60px;
+	bottom: 598px;
+	left: 229px;
 	color: #000;
 	text-align: center;
 	font-family: Work Sans;
@@ -407,8 +437,48 @@ footer nav ul {
 	font-weight: 400;
 }
 
-.modal-gallery{
 
+.modal1-gallery{
+	position: absolute;
+	top: 130px;
+	left: 110px;
+	width: 410px;
+	height: 240px;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr;
+	grid-column-gap: 6px;
+	grid-row-gap: 25px;
+	box-sizing: border-box;
+}
+
+.image-modal-container {
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+
+.modal1-gallery img{
+	width: 100%;
+	height: 100%;
+}
+
+.image-modal-container i{
+	height: 18px;
+	width: 17px;
+	position: absolute;
+	top: 6px; 
+	right: 6px; 
+	border-radius: 2px;
+	display: flex;
+	flex-direction: ;
+	justify-content: center;
+	align-items:center;
+	font-size: 11px;
+	font-weight: 550;
+	color: #ffffff;
+	background-color: #000;
+	cursor: pointer;
 }
 
 hr {
@@ -434,7 +504,6 @@ hr {
 	font-family: Syne;
 	font-size: 14px;
 	font-weight:  400;
+	cursor: pointer;
 }
-
-
 

@@ -16,6 +16,7 @@ fetch(baseUrl + "/api/works")
         allProjets = data;
         console.log("Projets gallery Api  datas: ", allProjets);
         updateGallery(data);
+        updateModal(data); //Function in the modal part//
     })
     .catch(error => {
         console.error("API Projets data return error", error);
@@ -25,11 +26,13 @@ fetch(baseUrl + "/api/works")
 // Function Projets gallery  //
 function updateGallery(apiProjets) {
     const galleryElement = document.querySelector(".gallery");
+   
+
     if (!galleryElement) {
          console.error("API Projets datas unfound.");
         return;
     }else{
-        galleryElement.innerHTML = '';
+        galleryElement.innerHTML = "";
         apiProjets.forEach(item => {
             const imageContainer = document.createElement("div");
             imageContainer.classList.add("image-container");
@@ -46,14 +49,19 @@ function updateGallery(apiProjets) {
             imageContainer.appendChild(titleElement);
             galleryElement.appendChild(imageContainer);
 
+            
+
+          
             console.log("API loading Projets gallery OK.");
         });
     }
 }
 
 
-// CATEGORIES & FILTERS //
 
+
+
+// CATEGORIES & FILTERS //
 //Filters create elements
 function createFilterElement(filter) {
     const filterItem = document.createElement("li");
@@ -91,7 +99,7 @@ function createFilterElement(filter) {
 //Filters Container    
 const filtersContainer = document.querySelector(".categories");
 const filtersList = document.createElement("ul");
-filtersContainer.style.margin = "60px 0px 0px 0px";
+filtersContainer.style.margin = "51px 0px 0px 0px";
 filtersList.style.width = "100%";
 filtersList.style.display = "flex";
 filtersList.style.flexDirection = "row";
@@ -99,7 +107,7 @@ filtersList.style.justifyContent = "center";
 filtersList.style.gap = "10px";
 filtersList.style.margin = "0";
     
-//Fetch API & DOM add
+//FETCH API & DOM add
 fetch(baseUrl + "/api/categories")
     .then(response => response.json())
     .then(filters => {
@@ -119,7 +127,7 @@ fetch(baseUrl + "/api/categories")
 //Filters use function
 function filterProjectsByCategory(categoryId) {
 
-    const projects = document.querySelectorAll('.gallery .project');
+    const projects = document.querySelectorAll(".gallery .project");
     if (categoryId === "all") {
         updateGallery(allProjets);
     } else {
@@ -158,16 +166,14 @@ login.addEventListener("click", () => {
 });
 
 
-
 // EDIT VERSION AFTER LOGIN//
 //After connection 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener("DOMContentLoaded", function () {
     if (localStorage.getItem("loginSuccess") === 'true') {
         console.log("Login Edit mode access");
         editVersStyle();
     }
 });
-
 // EDIT VERS style  //
 function editVersStyle() {
     editVersBanner();
@@ -177,8 +183,8 @@ function editVersStyle() {
     console.log("Modifs OK (RAPPEL MODIFS) "); //----------A SUPPR    ---------//
     //editGalleryMod
 }
-
 //EDIT VERS Banner //
+const projetId = 123
 function editVersBanner (){
     const editBandDiv= document.querySelector(".editBand");
         editBandDiv.style.backgroundColor = "#000000";
@@ -211,15 +217,12 @@ function navbarEditVers (){
     logout.textContent = "Logout";
     login.removeEventListener("click", login);
     login.addEventListener("click", logoutRedirection);
-
 }
-
 //Logout redirection//
 function logoutRedirection (){
     localStorage.removeItem("loginSuccess"); 
     window.location.href = "index.html";
 }
-
 //EDIT VERS Categories//
 function filtersEditVers () {
     const hideCategories = document.querySelector(".categories")
@@ -229,7 +232,9 @@ function filtersEditVers () {
 
 }
 
-//EDIT VERS Gallery links//
+
+//EDIT VERS Gallery links & Modal opeening/closing//
+//Modal links
 function modalEditLinks(){   
     let modal = null;
     const editPosition = document.querySelector(".projets-title");
@@ -245,6 +250,7 @@ function modalEditLinks(){
         editLink.href ="#modal1";
         editLink.classList.add("js-modal");
         editLink.style.margin ="11px 0px 0px 0px";
+
     const editStyle = document.querySelector(".projets-title");
         editStyle.style.display = "flex";
         editStyle.style.justifyContent ="center";
@@ -256,37 +262,112 @@ function modalEditLinks(){
     editPosition.appendChild(editLogo);
     editPosition.appendChild(editLink);
 
+    //Modal opening/closing
     const openModal = function(e) {   
         e.preventDefault ();
         const target = document.querySelector(e.target.getAttribute("href"));
         target.style.display = "flex";
+        overlay.style.display = "block";
         target.removeAttribute("aria-hidden");
         target.setAttribute("aria-modal", "true");
         modal = target;
-        modal.addEventListener("click", closeModal);
+        e.stopPropagation();
+        document.body.addEventListener("click", closeModal);
+        document.querySelector(".modal1-button").addEventListener("click", addProjetModal); //Add Projet Listener
         modal.querySelector(".modal-close").addEventListener("click", closeModal);
-        console.log("Modal openin OK")
+        modal.querySelector(".projets-modal").addEventListener("click", stopPropagation); 
+        console.log("Opening modal")
     }
 
     const closeModal = function(e){
-        console.log("Fermeture de la modal");
         if (modal === null) return;
         e.preventDefault();
         modal.style.display = "none";
+        overlay.style.display = "none";
         modal.setAttribute("aria-hidden", "true");
         modal.removeAttribute("aria-modal");
-        modal.removeEventListener("click", closeModal);
-        modal.querySelector(".modal-close").removeEventListener("click", closeModal)
-        modal = null;   
+        document.body.removeEventListener("click", closeModal);
+        modal.querySelector(".modal-close").removeEventListener("click", closeModal);
+        modal.querySelector(".projets-modal").removeEventListener("click", stopPropagation);
+        modal = null;  
+        console.log("Closing modal"); 
     };
 
+    const stopPropagation = function(e){
+        e.stopPropagation()
+    }
+
+    window.addEventListener("keydown", function(e) {
+        if(e.key === "Escape" || "Esc"){
+            closeModal(e)
+        }
+    });
     editLogo.addEventListener("click", openModal);
     editLink.addEventListener("click", openModal);
 }
 
+//ADD PROJET //  CHANGEMENT D'emplacement ?? !!!!!!!!!!!!!!!!!!!!!
+//Add Projet modal 
+function addProjetModal() {
+    //Style
+    document.querySelector(".modal1-gallery").style.display = "none";
+    document.getElementById("modal1-title").textContent ="Ajout photo";
+    const addModal2Button = document.querySelector(".modal1-button");
+    addModal2Button.style.backgroundColor = "#A7A7A7";
+    addModal2Button.textContent = "Valider";
+
+}
+
+// FUNCTION Modal Projets gallery //
+function updateModal(apiProjets){
+    const galleryModal = document.querySelector(".modal1-gallery");
+    if (!galleryModal) {
+        console.error("API Projets datas unfound.");
+       return;
+    }else{
+        galleryModal.innerHTML = "";
+        apiProjets.forEach(item => {
+            const imageModalContainer = document.createElement("div");
+            imageModalContainer.classList.add("image-modal-container");
+
+            const imageElement = document.createElement("img");
+            imageElement.src = item.imageUrl; 
+            imageElement.alt = item.title;
+
+            const trashLogo= document.createElement("i");//Delete icon
+            trashLogo.classList.add('fa-solid', 'fa-trash-can');
+
+            imageModalContainer.appendChild(imageElement);
+            imageModalContainer.appendChild(trashLogo);
+            galleryModal.appendChild(imageModalContainer);
+
+            //trashLogo.addEventListener("click", deleteElement);//Delete listener
+
+            console.log("API loading MODAL rojets gallery OK.");
+        });
+    }
+}
 
 
-
-
+//DELETE Projet//
+/*function deleteElement(){
+    fetch(baseUrl + "/api/XXX/{id}")
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Network error or server problems");
+        }
+        return response.json();
+    })
+    .then(data => {
+        allProjets = data;
+        console.log("Projets gallery Api new datas: ", allProjets);
+        updateGallery(data);
+        updateModal(data); //Function in the modal part//
+    })
+    .catch(error => {
+        console.error("API Projets delete data return error", error);
+    });
+}
+*/
 
 
