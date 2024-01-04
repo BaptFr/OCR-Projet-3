@@ -66,7 +66,7 @@ function updateGallery(apiProjets) {
 function createFilterElement(filter) {
     const filterItem = document.createElement("li");
     const filterLink = document.createElement("a");
-    filterLink.href = '#';
+    filterLink.href = "#projets";
     filterLink.textContent = filter.name;
     
     filterItem.appendChild(filterLink);
@@ -86,12 +86,15 @@ function createFilterElement(filter) {
     filterItem.style.fontStyle = "normal";
     filterItem.style.border = "1px solid";
     filterItem.style.borderRadius = "60px";
+    filterItem.style.cursor = "pointer";
     // Filters eventListener
-    filterLink.addEventListener("click", () => {
+    filterItem.addEventListener("click", () => {
         console.log("Filter name :", filter.name, ", category and id :", filter.id);
+        var projetsSection = document.getElementById("projets");
+        projetsSection.scrollIntoView();
         filterProjectsByCategory(filter.id);
         activateFilter(filterItem);
-        activateFilterStyle(filterLink);
+        activateFilterStyle(filterLink);    
     });
     return filterItem;
 }
@@ -262,7 +265,7 @@ function modalEditLinks(){
     editPosition.appendChild(editLogo);
     editPosition.appendChild(editLink);
 
-    //Modal opening/closing
+    //Modal opening & closing
     const openModal = function(e) {   
         e.preventDefault ();
         const target = document.querySelector(e.target.getAttribute("href"));
@@ -298,25 +301,15 @@ function modalEditLinks(){
     }
 
     window.addEventListener("keydown", function(e) {
-        if(e.key === "Escape" || "Esc"){
-            closeModal(e)
+        if(e.key === "Escape" || e.key === "Esc"){
+            closeModal(e);
+        }else{
         }
     });
     editLogo.addEventListener("click", openModal);
     editLink.addEventListener("click", openModal);
 }
 
-//ADD PROJET //  CHANGEMENT D'emplacement ?? !!!!!!!!!!!!!!!!!!!!!
-//Add Projet modal 
-function addProjetModal() {
-    //Style
-    document.querySelector(".modal1-gallery").style.display = "none";
-    document.getElementById("modal1-title").textContent ="Ajout photo";
-    const addModal2Button = document.querySelector(".modal1-button");
-    addModal2Button.style.backgroundColor = "#A7A7A7";
-    addModal2Button.textContent = "Valider";
-
-}
 
 // FUNCTION Modal Projets gallery //
 function updateModal(apiProjets){
@@ -349,7 +342,7 @@ function updateModal(apiProjets){
 }
 
 
-//DELETE Projet//
+//DELETE PROJET on modal gallery//
 /*function deleteElement(){
     fetch(baseUrl + "/api/XXX/{id}")
     .then(response => {
@@ -371,3 +364,94 @@ function updateModal(apiProjets){
 */
 
 
+//ADD NEW PROJET //  
+//Modal2 : Add Projet modal//
+function addProjetModal() {
+    //Selector const
+    const modal2Title = document.getElementById("modal1-title");
+    const modal2Content = document.querySelector(".modal2-content");
+    const addModal2Button = document.querySelector(".modal1-button");
+    const addPicture = document.getElementById("modal2-picture-add-button");
+    const fileInput = document.getElementById("file-input");
+    const loadedPictureChange = document.querySelector(".loaded-picture-change");
+    const titreInput = document.getElementById("titre");
+    const categorieInput = document.getElementById("categorie");
+  
+
+    //Modal2 style (add Projet modal style)
+    document.querySelector(".modal").style.backgroundColor = "#FFFFFF";
+    document.querySelector(".modal1-gallery").style.display = "none";
+    modal2Content.style.display ="flex";
+    modal2Title.textContent ="Ajout photo";
+    modal2Title.style.left="250px";
+    addModal2Button.disabled = true;
+    addModal2Button.style.backgroundColor = "#A7A7A7";
+    addModal2Button.style.cursor = "auto";
+    addModal2Button.textContent = "Valider";
+    addModal2Button.style.right = "195px";
+
+    //Modal2 listeners
+    addPicture.addEventListener("click", function(){
+        console.log("CLIC AJOUT PHOTO OK"); // CONSOLELOG VERIF
+        fileInput.click();
+    });
+    titreInput.addEventListener("change", function(){
+        conditionsConfirmationButton();
+    });
+    categorieInput.addEventListener("change",function(){
+        conditionsConfirmationButton();
+    })
+
+    //Picture modal integration
+    fileInput.addEventListener("change", function (){
+        if (fileInput.files.length > 0) {
+            const selectedFile = fileInput.files[0];
+            const reader = new FileReader(); 
+
+            reader.onload = function(e) {
+                const imgAdded =document.createElement("img");
+                imgAdded.src = e.target.result;
+                imgAdded.alt ="Image sélectionnée";
+                imgAdded.style.maxWidth = "129px";
+                imgAdded.style.maxHeight = "169px";
+
+                loadedPictureChange.innerHTML = '';
+                loadedPictureChange.appendChild(imgAdded);
+
+                conditionsConfirmationButton();
+            };
+            reader.readAsDataURL(selectedFile);
+        }
+    });
+
+    // Add Projet enable confirmation "Valider"
+    function conditionsConfirmationButton(){
+        const titreValue = titreInput.value.trim();  
+        const categorieValue = categorieInput.value.trim();
+
+        if (titreValue !=="" && categorieValue !== "" &&fileInput.files.length > 0){
+            addModal2Button.style.backgroundColor = "#1D6154";
+            addModal2Button.disabled = false;
+            addModal2Button.style.cursor = "pointer";
+        }else{
+            addModal2Button.style.backgroundColor = "#A7A7A7";
+            addModal2Button.disabled = true;
+            addModal2Button.style.cursor = "auto";
+            }
+    }
+
+    /*function validationAddProjet {    ENVOI NOUVEAU PROJET API FONCTIONNEL
+        fetch /api/works
+        //POST
+       Body: image
+       string($binary)
+       title
+       string
+       category
+       integer($int64)
+       
+    } Reponse code 201  Crée
+                    
+        */
+    
+}

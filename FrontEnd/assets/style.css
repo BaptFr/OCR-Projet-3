@@ -483,12 +483,12 @@ footer nav ul {
 
 hr {
 	width: 420px;
-	height: 0px;
+	height: 1px;
 	position: absolute;
 	right: 105px;
 	bottom: 110px;
-    color: #B3B3B3;
-    border: 1px solid #B3B3B3;
+    background-color: #B3B3B3;
+    border: none;
 }
 
 .modal1-button{
@@ -507,3 +507,86 @@ hr {
 	cursor: pointer;
 }
 
+
+
+.modal2-content{
+	position: absolute;
+	top: 130px;
+	left: 110px;
+	width: 410px;
+	height: 80%;
+	display: flex;
+	flex-direction: column;
+}
+.modal2-content i{
+	width: 76px ;
+	height: 76px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 70px;
+
+}
+
+.modal2-content a{
+	font-size: 10px;
+}
+
+.modal2-picture-add{
+	width: 420px;
+	height: 169px;
+	background-color: #E8F1F6;
+	border-radius: 3px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+}
+
+#modal2-picture-add-button {
+	width: 173px;
+	height: 36px;
+	font-size: 14px;
+	font-weight: 550;
+	font-family: Work Sans;
+	text-align: center;
+	border: none;
+	border-radius: 50px;
+	background-color: #CBD6DC;
+	color: #306685;
+	cursor: pointer;
+}
+
+.loaded-picture-change{
+	width: 129px;
+	height: 190px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+}
+
+#file-input{
+	display: none;
+}
+
+
+.picture-add-form {
+	margin-top: 35px;
+	margin-bottom: 0px;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
+
+.picture-add-form input{
+	margin-top: 15px;
+	margin-bottom: 21px;
+	width: 100%;
+	height: 51px;
+	font-size: 20px;
+	border: none;
+	box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
+}
