@@ -402,7 +402,6 @@ function addProjetModal() {
     const titreInput = document.getElementById("titre");
     const categorieSelect = document.getElementById("categorie-select");
   
-
     //Modal2 style (add Projet modal style)
     document.querySelector(".modal").style.backgroundColor = "#FFFFFF";
     document.querySelector(".modal1-gallery").style.display = "none";
