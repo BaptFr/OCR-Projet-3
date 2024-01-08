@@ -491,7 +491,7 @@ hr {
     border: none;
 }
 
-.modal1-button{
+.modal-button{
 	position:  absolute;
 	bottom: 45px;
 	right: 198px;
@@ -581,7 +581,8 @@ hr {
 	justify-content: flex-start;
 }
 
-.picture-add-form input{
+.picture-add-form input,
+.picture-add-form select{
 	margin-top: 15px;
 	margin-bottom: 21px;
 	width: 100%;

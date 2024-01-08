@@ -5,6 +5,7 @@ const baseUrl = "http://localhost:5678";
 
 //Call API Projets //
 let allProjets = [];
+function loadProjetsAndRefreshGallery () {
 fetch(baseUrl + "/api/works")
     .then(response => {
         if (!response.ok) {
@@ -21,6 +22,8 @@ fetch(baseUrl + "/api/works")
     .catch(error => {
         console.error("API Projets data return error", error);
     });
+}
+loadProjetsAndRefreshGallery ()
 
 
 // Function Projets gallery  //
@@ -56,9 +59,6 @@ function updateGallery(apiProjets) {
         });
     }
 }
-
-
-
 
 
 // CATEGORIES & FILTERS //
@@ -141,7 +141,7 @@ function filterProjectsByCategory(categoryId) {
 };
 
 
-// Filter activation &  desactivation 
+//Filters activation &  desactivation 
 function activateFilter(activeFilterItem){
     const allFilterItems = document.querySelectorAll(".categories li");
     allFilterItems.forEach(item => {
@@ -172,12 +172,12 @@ login.addEventListener("click", () => {
 // EDIT VERSION AFTER LOGIN//
 //After connection 
 document.addEventListener("DOMContentLoaded", function () {
-    if (localStorage.getItem("loginSuccess") === 'true') {
+    if (localStorage.getItem("loginSuccess") === "true") {
         console.log("Login Edit mode access");
         editVersStyle();
     }
 });
-// EDIT VERS style  //
+//EDIT VERS style  //
 function editVersStyle() {
     editVersBanner();
     navbarEditVers();
@@ -221,7 +221,7 @@ function navbarEditVers (){
     login.removeEventListener("click", login);
     login.addEventListener("click", logoutRedirection);
 }
-//Logout redirection//
+//Navbar Logout redirection//
 function logoutRedirection (){
     localStorage.removeItem("loginSuccess"); 
     window.location.href = "index.html";
@@ -273,13 +273,15 @@ function modalEditLinks(){
         overlay.style.display = "block";
         target.removeAttribute("aria-hidden");
         target.setAttribute("aria-modal", "true");
+        document.getElementById("modal1-button").style.display = "block";
+        document.getElementById("modal2-button").style.display = "none";
         modal = target;
         e.stopPropagation();
         document.body.addEventListener("click", closeModal);
-        document.querySelector(".modal1-button").addEventListener("click", addProjetModal); //Add Projet Listener
+        document.getElementById("modal1-button").addEventListener("click", addProjetModal); //Add Projet Listener
         modal.querySelector(".modal-close").addEventListener("click", closeModal);
         modal.querySelector(".projets-modal").addEventListener("click", stopPropagation); 
-        console.log("Opening modal")
+        console.log("MODAL 1 opening")
     }
 
     const closeModal = function(e){
@@ -290,6 +292,7 @@ function modalEditLinks(){
         modal.setAttribute("aria-hidden", "true");
         modal.removeAttribute("aria-modal");
         document.body.removeEventListener("click", closeModal);
+        document.getElementById("modal1-button").removeEventListener("click", addProjetModal);
         modal.querySelector(".modal-close").removeEventListener("click", closeModal);
         modal.querySelector(".projets-modal").removeEventListener("click", stopPropagation);
         modal = null;  
@@ -336,46 +339,26 @@ function updateModal(apiProjets){
 
             //trashLogo.addEventListener("click", deleteElement);//Delete listener
 
-            console.log("API loading MODAL rojets gallery OK.");
+            console.log("API loading MODAL projets gallery OK.");
         });
     }
 }
-
-
-//DELETE PROJET on modal gallery//
-/*function deleteElement(){
-    fetch(baseUrl + "/api/XXX/{id}")
-    .then(response => {
-        if (!response.ok) {
-            throw new Error("Network error or server problems");
-        }
-        return response.json();
-    })
-    .then(data => {
-        allProjets = data;
-        console.log("Projets gallery Api new datas: ", allProjets);
-        updateGallery(data);
-        updateModal(data); //Function in the modal part//
-    })
-    .catch(error => {
-        console.error("API Projets delete data return error", error);
-    });
-}
-*/
-
 
 //ADD NEW PROJET //  
 //Modal2 : Add Projet modal//
 function addProjetModal() {
     //Selector const
+    console.log("MODAL2 opening - Add projet")
+    document.getElementById("modal1-button").style.display = "none";
+    document.getElementById("modal2-button").style.display = "block";
     const modal2Title = document.getElementById("modal1-title");
     const modal2Content = document.querySelector(".modal2-content");
-    const addModal2Button = document.querySelector(".modal1-button");
+    const addModal2Button = document.getElementById("modal2-button");
     const addPicture = document.getElementById("modal2-picture-add-button");
     const fileInput = document.getElementById("file-input");
     const loadedPictureChange = document.querySelector(".loaded-picture-change");
     const titreInput = document.getElementById("titre");
-    const categorieInput = document.getElementById("categorie");
+    const categorieSelect = document.getElementById("categorie-select");
   
 
     //Modal2 style (add Projet modal style)
@@ -390,23 +373,44 @@ function addProjetModal() {
     addModal2Button.textContent = "Valider";
     addModal2Button.style.right = "195px";
 
+    //Category selection
+    fetch(baseUrl + "/api/categories")
+    .then(response => response.json())
+    .then(data => {
+    
+      const categorieSelect = document.getElementById("categorie-select");
+      const emptyOption = { id: 0, name: "" };
+      data.unshift(emptyOption);
+
+      data.forEach(category => {
+        const option = document.createElement("option");
+        option.value = category.id; 
+        option.textContent = category.name; 
+        categorieSelect.appendChild(option);
+      });
+    })
+    .catch(error => console.error("API category loading error", error));
+    
+
     //Modal2 listeners
-    addPicture.addEventListener("click", function(){
-        console.log("CLIC AJOUT PHOTO OK"); // CONSOLELOG VERIF
-        fileInput.click();
-    });
+   
     titreInput.addEventListener("change", function(){
         conditionsConfirmationButton();
     });
-    categorieInput.addEventListener("change",function(){
+    categorieSelect.addEventListener("change",function(){
         conditionsConfirmationButton();
-    })
+    });
+    addPicture.addEventListener("click", function(){
+        fileInput.click();
+    });
+    
 
     //Picture modal integration
     fileInput.addEventListener("change", function (){
         if (fileInput.files.length > 0) {
             const selectedFile = fileInput.files[0];
-            const reader = new FileReader(); 
+            const reader = new FileReader();
+            console.log("Fichier sélectionné :", selectedFile);
 
             reader.onload = function(e) {
                 const imgAdded =document.createElement("img");
@@ -422,17 +426,20 @@ function addProjetModal() {
             };
             reader.readAsDataURL(selectedFile);
         }
+        console.log("New Projet picture added"); // CONSOLELOG VERIF
+        
     });
 
-    // Add Projet enable confirmation "Valider"
+    // Add Projet modal enable button  "Valider"
     function conditionsConfirmationButton(){
         const titreValue = titreInput.value.trim();  
-        const categorieValue = categorieInput.value.trim();
+        const categorieValue = categorieSelect.value.trim();
 
         if (titreValue !=="" && categorieValue !== "" &&fileInput.files.length > 0){
             addModal2Button.style.backgroundColor = "#1D6154";
             addModal2Button.disabled = false;
             addModal2Button.style.cursor = "pointer";
+            console.log("Add project VALIDATION BUTTON unlocked")
         }else{
             addModal2Button.style.backgroundColor = "#A7A7A7";
             addModal2Button.disabled = true;
@@ -440,18 +447,64 @@ function addProjetModal() {
             }
     }
 
-    /*function validationAddProjet {    ENVOI NOUVEAU PROJET API FONCTIONNEL
-        fetch /api/works
-        //POST
-       Body: image
-       string($binary)
-       title
-       string
-       category
-       integer($int64)
-       
-    } Reponse code 201  Crée
-                    
-        */
-    
+    // API POST new Projet fetch
+    addModal2Button.addEventListener("click", function (event) {
+        event.preventDefault();
+        const titreValue = titreInput.value.trim();
+        const categorieValue = categorieSelect.value.trim();
+        const selectedFile = fileInput.files[0];
+
+        if (!selectedFile) {
+            console.error("Aucun fichier sélectionné.");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("image", selectedFile);
+        formData.append("title", titreValue);
+        formData.append("category", categorieValue);
+        console.log("Données de la requête :",  Array.from(formData.entries()));
+        const token = localStorage.getItem("token");
+   
+        if (!token) {
+            console.error("Unfound token in the localStorage.");
+            return;
+        }
+
+        
+        fetch(baseUrl +"/api/works", {
+            method: "POST",
+            body: formData,
+            headers:{
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Erreur: ${response.status} - ${response.statusText}`);
+            }
+            return response.json();
+                })
+
+        .then(data => {
+            console.log("Projet ajouté avec succès :", data);
+        
+
+        })
+        .catch(async error => {
+            console.error("Erreur lors de l'ajout du projet :", error);
+        
+            // Essayez d'obtenir le texte de la réponse d'erreur
+            try {
+                const errorText = await error.json(); // Utilisez error.json() au lieu de error.text()
+                console.log("Contenu de la réponse d'erreur :", errorText);
+            } catch (jsonError) {
+                console.error("Erreur lors de la récupération du texte de la réponse d'erreur :", jsonError);
+            }
+        });
+
+});
+
 }
+    
+

@@ -12,7 +12,7 @@
         integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
         crossorigin="anonymous" referrerpolicy="no-referrer" >
 	<link rel="stylesheet" href="./assets/style.css">
-	<script type="module" src="main.js"></script>
+	
 
 </head>
 
@@ -64,14 +64,15 @@
 					<form class="picture-add-form">
 						<label for="titre">Titre</label>
 						<input type="text" id="titre" name="titre" autocomplete="off">
-					
 						<label for="categorie">Catégorie</label>
-						<input type="text" id="categorie" name="categorie" autocomplete="off">
+						<select id="categorie-select" name="categorie-select">
+						</select>
 					</form>
 				</div>
 				<hr id="modal-line">
-				<div ><button class="modal1-button" >Ajouter une photo</button>
-				</div>	
+				<div ><button id="modal1-button" class="modal-button" >Ajouter une photo</button>
+				</div>
+				<div > <button id= "modal2-button"class="modal-button">Valider</button></div>	
 			</div>
 		</aside>
 		<div class="modal-overlay" id="overlay">
@@ -111,6 +112,7 @@
 		</ul>
 	</nav>
 </footer>
+<script type="module" src="main.js"></script>
 </body>
 </html>
 
