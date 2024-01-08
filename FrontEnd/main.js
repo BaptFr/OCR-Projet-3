@@ -17,7 +17,7 @@ fetch(baseUrl + "/api/works")
         allProjets = data;
         console.log("Projets gallery Api  datas: ", allProjets);
         updateGallery(data);
-        updateModal(data); //Function in the modal part//
+        updateModal(data); //Function for Modal1 //
     })
     .catch(error => {
         console.error("API Projets data return error", error);
@@ -52,9 +52,6 @@ function updateGallery(apiProjets) {
             imageContainer.appendChild(titleElement);
             galleryElement.appendChild(imageContainer);
 
-            
-
-          
             console.log("API loading Projets gallery OK.");
         });
     }
@@ -183,11 +180,9 @@ function editVersStyle() {
     navbarEditVers();
     filtersEditVers ();
     modalEditLinks (); 
-    console.log("Modifs OK (RAPPEL MODIFS) "); //----------A SUPPR    ---------//
-    //editGalleryMod
 }
 //EDIT VERS Banner //
-const projetId = 123
+
 function editVersBanner (){
     const editBandDiv= document.querySelector(".editBand");
         editBandDiv.style.backgroundColor = "#000000";
@@ -213,7 +208,6 @@ function editVersBanner (){
     editBandDiv.appendChild(editBandLogo);
     editBandDiv.appendChild(editBandTitle);   
 }
-
 //EDIT VERS Navbar logout//
 function navbarEditVers (){
     const logout = document.getElementById("nav-login");  
@@ -221,7 +215,7 @@ function navbarEditVers (){
     login.removeEventListener("click", login);
     login.addEventListener("click", logoutRedirection);
 }
-//Navbar Logout redirection//
+//EDIT VERS Navbar Logout redirection//
 function logoutRedirection (){
     localStorage.removeItem("loginSuccess"); 
     window.location.href = "index.html";
@@ -232,11 +226,10 @@ function filtersEditVers () {
     const galleryStyle = document.querySelector(".gallery")
     hideCategories.style.display = "none";
     galleryStyle.style.marginTop = "92px";
-
 }
 
 
-//EDIT VERS Gallery links & Modal opeening/closing//
+//EDIT VERS Gallery links + Modal opening & closing//
 //Modal links
 function modalEditLinks(){   
     let modal = null;
@@ -260,13 +253,17 @@ function modalEditLinks(){
         editStyle.style.flexDirection ="row";
         editStyle.style.alignItems ="flex-start";
         editStyle.style.margin = " 30px 0px 0px 110px";
-        editStyle.style.height = "30px"
+        editStyle.style.height = "30px";
 
     editPosition.appendChild(editLogo);
     editPosition.appendChild(editLink);
 
-    //Modal opening & closing
-    const openModal = function(e) {   
+    
+
+    //Modal1 opening & closing
+    
+    const openModal = function(e) {
+        
         e.preventDefault ();
         const target = document.querySelector(e.target.getAttribute("href"));
         target.style.display = "flex";
@@ -278,10 +275,11 @@ function modalEditLinks(){
         modal = target;
         e.stopPropagation();
         document.body.addEventListener("click", closeModal);
-        document.getElementById("modal1-button").addEventListener("click", addProjetModal); //Add Projet Listener
+        document.getElementById("modal1-button").addEventListener("click", addProjetModal); //Add Projet Listener(Modal2)
         modal.querySelector(".modal-close").addEventListener("click", closeModal);
         modal.querySelector(".projets-modal").addEventListener("click", stopPropagation); 
         console.log("MODAL 1 opening")
+        console.log("Loading MODAL gallery Projets from API OK.");
     }
 
     const closeModal = function(e){
@@ -296,7 +294,8 @@ function modalEditLinks(){
         modal.querySelector(".modal-close").removeEventListener("click", closeModal);
         modal.querySelector(".projets-modal").removeEventListener("click", stopPropagation);
         modal = null;  
-        console.log("Closing modal"); 
+        console.log("Closing modal");
+
     };
 
     const stopPropagation = function(e){
@@ -309,12 +308,15 @@ function modalEditLinks(){
         }else{
         }
     });
+
     editLogo.addEventListener("click", openModal);
     editLink.addEventListener("click", openModal);
+
 }
+    
 
 
-// FUNCTION Modal Projets gallery //
+// FUNCTION Modal1 Projets gallery //
 function updateModal(apiProjets){
     const galleryModal = document.querySelector(".modal1-gallery");
     if (!galleryModal) {
@@ -330,24 +332,64 @@ function updateModal(apiProjets){
             imageElement.src = item.imageUrl; 
             imageElement.alt = item.title;
 
-            const trashLogo= document.createElement("i");//Delete icon
-            trashLogo.classList.add('fa-solid', 'fa-trash-can');
-
+            const trashLogo= document.createElement("i");//Delete Projet icon & listener
+            trashLogo.classList.add("fa-solid", "fa-trash-can");
             imageModalContainer.appendChild(imageElement);
             imageModalContainer.appendChild(trashLogo);
             galleryModal.appendChild(imageModalContainer);
+            
 
-            //trashLogo.addEventListener("click", deleteElement);//Delete listener
-
-            console.log("API loading MODAL projets gallery OK.");
+            trashLogo.addEventListener("click", () => {
+                deleteElement(item.id)
+            });
+               
         });
     }
-}
+};
 
-//ADD NEW PROJET //  
+// DELETE PROJET function Modal1//
+function deleteElement(projectIdDelete) {
+    const userConfirmed = window.confirm("Voulez-vous vraiment supprimer le projet ?");
+    const token = localStorage.getItem("token");
+
+    if (userConfirmed) {
+        fetch(baseUrl + "/api/works/" + projectIdDelete, {
+            method: "DELETE",
+            headers: {
+                accept: "*/*",
+                "Authorization": "Bearer " + token,
+            },
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log("Projet DELETING SUCCESS");
+                alert("Projet supprimé");
+                fetch(baseUrl + "/api/works")
+                    .then(response => response.json())
+                    .then(data => updateModal(data))
+                    .catch(error => console.error("Error update Modal gallery projects (fetch)", error));
+                loadProjetsAndRefreshGallery();
+            } else {
+                console.error("Error deleting Projet: " + response.status);
+                return response.json();
+            }  
+            
+        })
+        .catch(error => {
+            console.error("Error deleting Projet", error);
+            alert("Une erreur est survenue lors de la suppression du projet.");
+        });
+    } else {
+        console.log("Projet deleting canceled by user");
+    }
+    
+};
+
+
+// ADD NEW PROJET //  
 //Modal2 : Add Projet modal//
 function addProjetModal() {
-    //Selector const
+    //Selectors for const 
     console.log("MODAL2 opening - Add projet")
     document.getElementById("modal1-button").style.display = "none";
     document.getElementById("modal2-button").style.display = "block";
@@ -377,11 +419,9 @@ function addProjetModal() {
     fetch(baseUrl + "/api/categories")
     .then(response => response.json())
     .then(data => {
-    
       const categorieSelect = document.getElementById("categorie-select");
       const emptyOption = { id: 0, name: "" };
       data.unshift(emptyOption);
-
       data.forEach(category => {
         const option = document.createElement("option");
         option.value = category.id; 
@@ -393,7 +433,6 @@ function addProjetModal() {
     
 
     //Modal2 listeners
-   
     titreInput.addEventListener("change", function(){
         conditionsConfirmationButton();
     });
@@ -447,7 +486,7 @@ function addProjetModal() {
             }
     }
 
-    // API POST new Projet fetch
+    // API POST new Projet fetch   /////RESTE SUR LA MODAL 2
     addModal2Button.addEventListener("click", function (event) {
         event.preventDefault();
         const titreValue = titreInput.value.trim();
@@ -455,7 +494,7 @@ function addProjetModal() {
         const selectedFile = fileInput.files[0];
 
         if (!selectedFile) {
-            console.error("Aucun fichier sélectionné.");
+            console.error("No picture selected.");
             return;
         }
 
@@ -463,7 +502,6 @@ function addProjetModal() {
         formData.append("image", selectedFile);
         formData.append("title", titreValue);
         formData.append("category", categorieValue);
-        console.log("Données de la requête :",  Array.from(formData.entries()));
         const token = localStorage.getItem("token");
    
         if (!token) {
@@ -471,12 +509,11 @@ function addProjetModal() {
             return;
         }
 
-        
         fetch(baseUrl +"/api/works", {
             method: "POST",
             body: formData,
             headers:{
-                Authorization: `Bearer ${token}`,
+                "Authorization": "Bearer " + token,
             },
         })
         .then(response => {
@@ -485,26 +522,26 @@ function addProjetModal() {
             }
             return response.json();
                 })
-
         .then(data => {
-            console.log("Projet ajouté avec succès :", data);
-        
+            console.log("Projet ADDED SUCCESS", data);
+            if (data !== null) {
+                alert("Le projet a bien été ajouté.");
 
+                loadProjetsAndRefreshGallery();
+                const closeButton = document.querySelector(".modal-close");
+                const clickClose = new Event("click");
+                closeButton.dispatchEvent(clickClose);
+            } else { 
+                console.error("Error adding Projet: Unexpected response", data);
+                alert("Une erreur est survenue lors de l'ajout du projet.");
+            };
         })
-        .catch(async error => {
-            console.error("Erreur lors de l'ajout du projet :", error);
-        
-            // Essayez d'obtenir le texte de la réponse d'erreur
-            try {
-                const errorText = await error.json(); // Utilisez error.json() au lieu de error.text()
-                console.log("Contenu de la réponse d'erreur :", errorText);
-            } catch (jsonError) {
-                console.error("Erreur lors de la récupération du texte de la réponse d'erreur :", jsonError);
-            }
+        .catch(error => {
+            console.error("Projet ADDED ERROR:", error);
         });
+    });
+};
 
-});
 
-}
     
 
