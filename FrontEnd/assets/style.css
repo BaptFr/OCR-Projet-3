@@ -374,9 +374,18 @@ footer nav ul {
 #error-message{
 	color:red;
 	font-weight: bold;
+}
+
+.error-form-message{
+	color:#3D3D3D;
+	font-weight: bold;
+	position: absolute;
+	bottom: 15px;
+	left: 140px;
+}
 
 
-}/*** MODAL ***/
+/*** MODAL ***/
 
 
 .modal {
@@ -507,8 +516,6 @@ hr {
 	cursor: pointer;
 }
 
-
-
 .modal2-content{
 	position: absolute;
 	top: 130px;
@@ -518,7 +525,8 @@ hr {
 	display: flex;
 	flex-direction: column;
 }
-.modal2-content i{
+
+#picture_add_icon{
 	width: 76px ;
 	height: 76px;
 	display: flex;
@@ -530,6 +538,19 @@ hr {
 
 .modal2-content a{
 	font-size: 10px;
+}
+
+.back-button{
+	width: 21px;
+	height: 18px ;
+	position: absolute;
+	top: 27px;
+	left: 30px;
+	background-color: transparent;
+	border: none;
+	font-size: 21px;
+	cursor: pointer;
+	display: none;
 }
 
 .modal2-picture-add{

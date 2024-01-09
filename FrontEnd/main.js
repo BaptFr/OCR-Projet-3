@@ -30,7 +30,6 @@ loadProjetsAndRefreshGallery ()
 function updateGallery(apiProjets) {
     const galleryElement = document.querySelector(".gallery");
    
-
     if (!galleryElement) {
          console.error("API Projets datas unfound.");
         return;
@@ -84,7 +83,7 @@ function createFilterElement(filter) {
     filterItem.style.border = "1px solid";
     filterItem.style.borderRadius = "60px";
     filterItem.style.cursor = "pointer";
-    // Filters eventListener
+    //Filters eventListener
     filterItem.addEventListener("click", () => {
         console.log("Filter name :", filter.name, ", category and id :", filter.id);
         var projetsSection = document.getElementById("projets");
@@ -138,7 +137,7 @@ function filterProjectsByCategory(categoryId) {
 };
 
 
-//Filters activation &  desactivation 
+//Filters activation & desactivation 
 function activateFilter(activeFilterItem){
     const allFilterItems = document.querySelectorAll(".categories li");
     allFilterItems.forEach(item => {
@@ -166,6 +165,7 @@ login.addEventListener("click", () => {
 });
 
 
+
 // EDIT VERSION AFTER LOGIN//
 //After connection 
 document.addEventListener("DOMContentLoaded", function () {
@@ -174,15 +174,16 @@ document.addEventListener("DOMContentLoaded", function () {
         editVersStyle();
     }
 });
-//EDIT VERS style  //
+
+//EDIT VERS style  
 function editVersStyle() {
     editVersBanner();
     navbarEditVers();
     filtersEditVers ();
     modalEditLinks (); 
 }
-//EDIT VERS Banner //
 
+//EDIT VERS Banner 
 function editVersBanner (){
     const editBandDiv= document.querySelector(".editBand");
         editBandDiv.style.backgroundColor = "#000000";
@@ -208,19 +209,21 @@ function editVersBanner (){
     editBandDiv.appendChild(editBandLogo);
     editBandDiv.appendChild(editBandTitle);   
 }
-//EDIT VERS Navbar logout//
+
+//EDIT VERS Navbar logout
 function navbarEditVers (){
     const logout = document.getElementById("nav-login");  
     logout.textContent = "Logout";
     login.removeEventListener("click", login);
     login.addEventListener("click", logoutRedirection);
 }
-//EDIT VERS Navbar Logout redirection//
+
+//EDIT VERS Navbar Logout redirection
 function logoutRedirection (){
     localStorage.removeItem("loginSuccess"); 
     window.location.href = "index.html";
 }
-//EDIT VERS Categories//
+//EDIT VERS Categories
 function filtersEditVers () {
     const hideCategories = document.querySelector(".categories")
     const galleryStyle = document.querySelector(".gallery")
@@ -259,11 +262,8 @@ function modalEditLinks(){
     editPosition.appendChild(editLink);
 
     
-
-    //Modal1 opening & closing
-    
+    //Modal1(Gallery & delete) opening & closing
     const openModal = function(e) {
-        
         e.preventDefault ();
         const target = document.querySelector(e.target.getAttribute("href"));
         target.style.display = "flex";
@@ -272,6 +272,7 @@ function modalEditLinks(){
         target.setAttribute("aria-modal", "true");
         document.getElementById("modal1-button").style.display = "block";
         document.getElementById("modal2-button").style.display = "none";
+        document.querySelector(".back-button").style.display="none";
         modal = target;
         e.stopPropagation();
         document.body.addEventListener("click", closeModal);
@@ -295,7 +296,6 @@ function modalEditLinks(){
         modal.querySelector(".projets-modal").removeEventListener("click", stopPropagation);
         modal = null;  
         console.log("Closing modal");
-
     };
 
     const stopPropagation = function(e){
@@ -311,10 +311,8 @@ function modalEditLinks(){
 
     editLogo.addEventListener("click", openModal);
     editLink.addEventListener("click", openModal);
-
 }
     
-
 
 // FUNCTION Modal1 Projets gallery //
 function updateModal(apiProjets){
@@ -368,7 +366,6 @@ function deleteElement(projectIdDelete) {
                     .then(response => response.json())
                     .then(data => updateModal(data))
                     .catch(error => console.error("Error update Modal gallery projects (fetch)", error));
-                loadProjetsAndRefreshGallery();
             } else {
                 console.error("Error deleting Projet: " + response.status);
                 return response.json();
@@ -390,9 +387,10 @@ function deleteElement(projectIdDelete) {
 //Modal2 : Add Projet modal//
 function addProjetModal() {
     //Selectors for const 
-    console.log("MODAL2 opening - Add projet")
+    console.log("MODAL2 opening - Add projet");
     document.getElementById("modal1-button").style.display = "none";
     document.getElementById("modal2-button").style.display = "block";
+    const modal2BackButton = document.querySelector(".back-button");
     const modal2Title = document.getElementById("modal1-title");
     const modal2Content = document.querySelector(".modal2-content");
     const addModal2Button = document.getElementById("modal2-button");
@@ -406,6 +404,7 @@ function addProjetModal() {
     document.querySelector(".modal").style.backgroundColor = "#FFFFFF";
     document.querySelector(".modal1-gallery").style.display = "none";
     modal2Content.style.display ="flex";
+    modal2BackButton.style.display="flex"
     modal2Title.textContent ="Ajout photo";
     modal2Title.style.left="250px";
     addModal2Button.disabled = true;
@@ -414,7 +413,7 @@ function addProjetModal() {
     addModal2Button.textContent = "Valider";
     addModal2Button.style.right = "195px";
 
-    //Category selection
+    //Modal 2 Category selection (add Projet )
     fetch(baseUrl + "/api/categories")
     .then(response => response.json())
     .then(data => {
@@ -430,8 +429,7 @@ function addProjetModal() {
     })
     .catch(error => console.error("API category loading error", error));
     
-
-    //Modal2 listeners
+    //Modal2 listeners ((add Projet form)
     titreInput.addEventListener("change", function(){
         conditionsConfirmationButton();
     });
@@ -442,8 +440,7 @@ function addProjetModal() {
         fileInput.click();
     });
     
-
-    //Picture modal integration
+    //Picture modal integration (add Projet Form)
     fileInput.addEventListener("change", function (){
         if (fileInput.files.length > 0) {
             const selectedFile = fileInput.files[0];
@@ -464,16 +461,17 @@ function addProjetModal() {
             };
             reader.readAsDataURL(selectedFile);
         }
-        console.log("New Projet picture added"); // CONSOLELOG VERIF
+        console.log("New Projet picture added"); 
         
     });
 
-    // Add Projet modal enable button  "Valider"
+    // Add Projet modal enable button "Valider"
     function conditionsConfirmationButton(){
         const titreValue = titreInput.value.trim();  
         const categorieValue = categorieSelect.value.trim();
 
-        if (titreValue !=="" && categorieValue !== "" &&fileInput.files.length > 0){
+        if (titreValue !=="" && categorieValue !== "" && fileInput.files.length > 0){
+            document.querySelector(".error-form-message").innerText ="";
             addModal2Button.style.backgroundColor = "#1D6154";
             addModal2Button.disabled = false;
             addModal2Button.style.cursor = "pointer";
@@ -482,10 +480,10 @@ function addProjetModal() {
             addModal2Button.style.backgroundColor = "#A7A7A7";
             addModal2Button.disabled = true;
             addModal2Button.style.cursor = "auto";
-            }
+            document.querySelector(".error-form-message").innerText = "Veuillez fournir toutes les informations pour valider";
+        }
     }
-
-    // API POST new Projet fetch   /////RESTE SUR LA MODAL 2
+    // API POST new Projet fetch                                        /////RESTE SUR LA MODAL 2 /////
     addModal2Button.addEventListener("click", function (event) {
         event.preventDefault();
         const titreValue = titreInput.value.trim();
@@ -527,9 +525,6 @@ function addProjetModal() {
                 alert("Le projet a bien été ajouté.");
 
                 loadProjetsAndRefreshGallery();
-                const closeButton = document.querySelector(".modal-close");
-                const clickClose = new Event("click");
-                closeButton.dispatchEvent(clickClose);
             } else { 
                 console.error("Error adding Projet: Unexpected response", data);
                 alert("Une erreur est survenue lors de l'ajout du projet.");
@@ -540,7 +535,3 @@ function addProjetModal() {
         });
     });
 };
-
-
-    
-

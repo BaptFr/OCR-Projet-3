@@ -47,6 +47,7 @@
 	<section class=" modal-section">
 		<aside id="modal1" class="modal" aria-hidden="true" role="dialog" aria-modal="false" aria-labelledby="modal-title" style="display: none;">
 			<div class="projets-modal">
+				<button class="back-button" style="display: none,"><i class="fa-solid fa-arrow-left" style="color: #000000;"></i></button>
 				<button class="modal-close"> <i class="fa-solid fa-xmark fa-lg"></i></button>
 				<div id="modal1-title"><a>Galerie photo</a>
 				</div>
@@ -55,7 +56,7 @@
 				<div class="modal2-content" style = "display: none;">
 					<div class="modal2-picture-add">
 						<div class=loaded-picture-change>
-							<i class="fa-regular fa-image" style="color: #b9c5cc;"></i>
+							<i id="picture-add-icon"class="fa-regular fa-image" style="color: #b9c5cc;"></i>
 							<button id="modal2-picture-add-button">+ Ajouter photo</button>
 							<input type="file" id="file-input" style="display: none;">
 							<a>jpg, png : 4mo max</a>
@@ -72,8 +73,10 @@
 				<hr id="modal-line">
 				<div ><button id="modal1-button" class="modal-button" >Ajouter une photo</button>
 				</div>
+				
 				<div > <button id= "modal2-button"class="modal-button">Valider</button></div>	
-			</div>
+				<div class="error-form-message" style="display: none,"></div>
+		</div>
 		</aside>
 		<div class="modal-overlay" id="overlay">
 		</div>
@@ -115,4 +118,6 @@
 <script type="module" src="main.js"></script>
 </body>
 </html>
+
+
 
