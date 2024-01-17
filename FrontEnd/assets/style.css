@@ -52,7 +52,7 @@ table {
 body {
 	width: 1140px;
 	margin:auto;
-	font-family: 'Work Sans' ;
+	font-family: "Work Sans" ;
 	font-size: 14px;
 }
 
@@ -76,16 +76,18 @@ section {
 h1 {
 	display: flex;
 	flex-direction: column;
+	gap: 5px;
 	font-family: 'Syne';
 	font-size: 22px;
 	font-weight: 800;
-	color: #B1663C
+	color: #B1663C;
 }
 
 h1 > span {
 	font-family: 'Work Sans';
 	font-size:10px;
-	letter-spacing: 0.1em;
+	font-weight: 500;
+	letter-spacing: 0.05em;
 }
 
 h1:hover{
@@ -132,7 +134,7 @@ a {
 
 #introduction {
 	width: 100%;
-	margin: 50px 0px 0px 0px;
+	margin: 80px 0px 0px 0px;
 	display: flex;
 	justify-content: center ;
 	align-items: center;
@@ -170,7 +172,8 @@ a {
 
 #portfolio h2 {
 	text-align: center;
-	margin-bottom: 1em;
+	margin-top: 40px;
+	margin-bottom: 40px;
 }
 
 .gallery {
@@ -179,12 +182,23 @@ a {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-column-gap: 20px;
-	grid-row-gap: 20px;
+	grid-row-gap: 28px;
 }
 
 .gallery img {
 	width: 100%;
+	height: 98%;
+	margin-bottom: 4px;
 }
+
+.gallery a {
+	max-width: 99%;
+	margin-top: 10px;
+	font-size: 13px;
+	font-weight: 400;
+	color: #3D3D3D;
+}
+
 
 #contact {
 	width: 404px;
@@ -196,11 +210,11 @@ a {
 }
 
 #contact h2{
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 }
 
 .contact-form {
-	width: 100;
+	width: 100%;
 	margin-top:10px;
 	display: flex;
 	flex-direction: column;
@@ -306,7 +320,7 @@ footer nav ul {
 .login-form label{
 	color: #3D3D3D;
 	font-size: 14px;
-	font-family: Work Sans;
+	font-family: "Work Sans";
 	font-weight: bold;
 	margin-bottom: 7px;
 }
@@ -344,7 +358,7 @@ footer nav ul {
 	font-size: 14px;
 	text-decoration: underline;
 	text-decoration-skip-ink: none;
-	font-family: work Sans;
+	font-family: "work Sans";
 	color: #3D3D3D;
 }
 
@@ -373,9 +387,9 @@ footer nav ul {
 
 #mentions-legales{
 	color:#000;
-	font-family: Work Sans;
-	font-size: 14px;
-	font-weight: 300px;
+	font-family: "Work Sans";
+	font-size: 15px;
+	font-weight: 300;
 }
 #error-message{
 	color:red;
@@ -440,10 +454,11 @@ footer nav ul {
 	left: 229px;
 	color: #000;
 	text-align: center;
-	font-family: Work Sans;
+	font-family: "Work Sans";
 	font-size: 26px;
 	font-weight: 400;
 }
+
 
 /*** MODAL1 ***/
 .modal1-gallery{
@@ -479,7 +494,6 @@ footer nav ul {
 	right: 6px; 
 	border-radius: 2px;
 	display: flex;
-	flex-direction: ;
 	justify-content: center;
 	align-items:center;
 	font-size: 11px;
@@ -516,7 +530,6 @@ hr {
 }
 
 
-
 /***MODAL 2 Add Projet***/
 /*MODAL 2 Add Projet form */
 .picture-add-form {
@@ -529,15 +542,41 @@ hr {
 	justify-content: flex-start;
 }
 
-.picture-add-form input,
+.picture-add-form label{
+	color: #3D3D3D;
+	font-size: 14px;
+	font-weight: 550;
+}
+
+.picture-add-form input{
+	margin-top: 14px;
+	margin-bottom: 22px;
+	width: 96%;
+	font-size: 14px;
+	font-family: "Work Sans";
+	font-weight: 400;
+	border: none;
+	box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
+	color: #444444;
+	padding: 18px 0px 17px 16px;
+}
+
 .picture-add-form select{
 	margin-top: 14px;
 	margin-bottom: 22px;
-	width: 100%;
-	height: 51px;
-	font-size: 20px;
+	width: 99.5%;
+	font-family: "Work Sans";
+	font-size: 14px;
+	font-weight: 400;
 	border: none;
 	box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
+	color: #444444;
+	padding: 18px 0px 17px 16px;
+	/*Hidde original chevron & add new */
+	appearance: none;
+	background-image: url("/FrontEnd/assets/icons/chevron-down-solid.png");
+	background-position: 93%; 
+	background-repeat: no-repeat;
 }
 
 .modal2-container a{
@@ -588,7 +627,7 @@ hr {
 	height: 36px;
 	font-size: 14px;
 	font-weight: 550;
-	font-family: Work Sans;
+	font-family: "Work Sans";
 	text-align: center;
 	border: none;
 	border-radius: 50px;
@@ -604,7 +643,7 @@ hr {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	gap: 6px;
+	gap: 7px;
 }
 
 .loaded-picture-change a{

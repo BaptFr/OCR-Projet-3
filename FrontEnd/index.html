@@ -19,7 +19,7 @@
 	<div class = "editBand">
 	</div>
 <header>
-	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
+	<h1>Sophie Bluel <span >ARCHITECTE D'INTÉRIEUR</span></h1>
 	<nav>
 		<ul>
 			<li id="nav-projets"><a href="#projets">projets</a></li>
@@ -30,7 +30,7 @@
 	</nav>
 </header>
 <main>
-	<section id="introduction">
+	<section id="introduction"> <h2 class="sr-only">Designer d'espace</h2>
 		<figure>
 			<img src="./assets/images/sophie-bluel.png" alt="Photo Sophie Bluel">
 		</figure>
@@ -44,22 +44,22 @@
 		</article>
 	</section>
 	<!--Modals-->
-	<section class=" modal-section">
+	<section class=" modal-section"> <h3 class="sr-only">Ajouter ou effacer un projet</h3>
 		<!--Modal1 Delete Projet-->
-		<aside id="modal1" class="modal" aria-hidden="true" role="dialog" aria-modal="false" aria-labelledby="modal-title" style="display: none;">
+		<div id="modal1" class="modal" aria-hidden="true" role="dialog" aria-modal="false" aria-labelledby="modal1-title" style="display: none;">
 			<div class="modal-container">
 				<div><button class="modal-close"> <i class="fa-solid fa-xmark fa-lg"></i></button></div>
 				<div id="modal1-title" class="modal-title"><a>Galerie photo</a>
 				</div>
 				<div class="modal1-gallery">
 				</div>
-				<hr id="modal-line">
-				<div ><button id="modal1-button" class="js-modal2" href="#modal2">Ajouter une photo</button> <!-- Link to modal2-->
+				<hr class="modal-line">
+				<div ><button id="modal1-button" class="js-modal2" >Ajouter une photo</button> <!-- Link to modal2-->
 				</div>
 			</div>
-		</aside>
+		</div>
 		<!--Modal2 Add Projet-->
-		<aside id="modal2" class="modal" aria-hidden="true" role="dialog" aria-modal="false" aria-labelledby="modal-title" style="display: none;">
+		<div id="modal2" class="modal" aria-hidden="true" role="dialog" aria-modal="false" aria-labelledby="modal2-title" style="display: none;">
 			<div id = modal2-content class= modal-container>
 				<!--Modal2 back button-->
 				<div><a id="modal-back-link" href="#modal1">
@@ -72,9 +72,9 @@
 				<!--Modal2 add picture / inputs-->	
 				<form id="picture-add-form" class="picture-add-form">
 					<div id= modal2-picture-add class="modal2-picture-add">
-						<input type="file" id="file-input" name="file" multiple ="false" accept=".jpg, .png">
+						<input type="file" id="file-input" name="file" accept=".jpg, .png">
 						<div class=loaded-picture-change> 
-								<i id="picture-add-icon"class="fa-regular fa-image" style="color: #b9c5cc;"></i>
+								<i id="picture-add-icon" class="fa-regular fa-image" style="color: #b9c5cc;"></i>
 								<button id="modal2-picture-add-button" >+ Ajouter photo</button>
 								<a>jpg, png : 4mo max</a>
 						</div> 
@@ -84,14 +84,14 @@
 					<label for="titre">Titre</label>
 					<input type="text" id="titre" name="titre" autocomplete="off">
 					<label for="categorie">Catégorie</label>
-					<select id="categorie-select" name="categorie-select">
+					<select id="categorie" name="categorie-select">
 					</select>
 				</form>
-				<hr id="modal-line">
+				<hr class="modal-line">
 				<div > <button id= "modal2-button">Valider</button>
 				</div>	
 			</div>
-		</aside>
+		</div>
 		<!--Modals overlay-->
 		<div class="modal-overlay" id="overlay">
 		</div>
@@ -99,9 +99,7 @@
 	<!--Home page portfolio gallery-->
 	<section id="portfolio">
 		<div class="projets-title">
-			<span id="edit">
-				<h2 id="projets" >Mes Projets</h2>
-			</span>
+				<h2 id="mes-projets-title" >Mes Projets</h2>
 		</div>
 		<div class="categories" >
 		</div>

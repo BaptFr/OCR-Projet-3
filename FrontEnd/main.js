@@ -85,7 +85,7 @@ function createFilterElement(filter) {
     //Filters eventListener selection
     filterItem.addEventListener("click", () => {
         console.log("Filter name :", filter.name, ", category and id :", filter.id);
-        var projetsSection = document.getElementById("projets");
+        var projetsSection = document.getElementById("mes-projets-title");
         projetsSection.scrollIntoView();
         filterProjectsByCategory(filter.id);
         activateFilter(filterItem);
@@ -229,29 +229,30 @@ function filtersEditVers () {
 //EDIT VERS Gallery links + Modal opening & closing//
 //Modal links
 function modalEditLinks(){   
-    const editPosition = document.querySelector(".projets-title");
+    const editPosition = document.querySelector(".projets-title");    
+        editPosition.style.display = "flex";
+        editPosition.style.justifyContent ="center";
+        editPosition.style.alignItems ="center";
+        editPosition.style.flexDirection = "center";
+        editPosition.style.margin = " 50px 0px 0px 110px";
+        editPosition.style.height = "30px";
 
     const editLogo = document.createElement("img");
         editLogo.src = "assets/icons/group.png";
         editLogo.classList.add("js-modal1");
         editLogo.alt = "logo-edit";
-        editLogo.style.margin = "7px 10px 0px 31px";
+        editLogo.style.margin = "0px 10px 0px 31px";
         editLogo.style.cursor = "pointer";
+        
         
         
     const editLink = document.createElement("a");
         editLink.textContent = "modifier" ; 
         editLink.href ="#modal1";
         editLink.classList.add("js-modal1");
-        editLink.style.margin ="11px 0px 0px 0px";
+        editLink.style.margin =  "5px 0px 0px 0px";
 
-    const editStyle = document.querySelector(".projets-title");
-        editStyle.style.display = "flex";
-        editStyle.style.justifyContent ="center";
-        editStyle.style.flexDirection ="row";
-        editStyle.style.alignItems ="flex-start";
-        editStyle.style.margin = " 30px 0px 0px 110px";
-        editStyle.style.height = "30px";
+
 
     editPosition.appendChild(editLogo);
     editPosition.appendChild(editLink);
@@ -434,7 +435,7 @@ const loadedPictureChange = document.querySelector(".loaded-picture-change");//A
 const loadedPicturePlace = document.querySelector(".loaded-picture-place");//Integration picture place
 //Form inputs 
 const titreInput = document.getElementById("titre");
-const categorieSelect = document.getElementById("categorie-select");
+const categorieSelect = document.getElementById("categorie");
 const fileInput = document.getElementById("file-input") 
 
     //Funtction add Projet
@@ -624,3 +625,4 @@ function clearFileInput() {
         input.remove();
     });
 };
+
