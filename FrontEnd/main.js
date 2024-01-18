@@ -165,7 +165,7 @@ login.addEventListener("click", () => {
 //After connection login success
 document.addEventListener("DOMContentLoaded", function () {
     if (localStorage.getItem("loginSuccess") === "true") {
-        console.log("Login Edit mode access");
+        console.log("LOGIN Edit mode access");
         editVersStyle();
     }
 });
@@ -216,6 +216,7 @@ function navbarEditVers (){
 function logoutRedirection (){
     localStorage.removeItem("loginSuccess"); 
     window.location.href = "index.html";
+    console.log("LOGOUT DONE")
 };
 //EDIT VERS Categories
 function filtersEditVers () {
@@ -596,7 +597,6 @@ addModal2Button.addEventListener("click", function (event) {
             alert("Le projet a bien été ajouté.");//User add success alert
             console.log("Projet ADDED SUCCESS", data);
             closeModal();
-            loadProjetsAndRefreshGallery ()
         } else { 
             console.error("Error adding Projet: Unexpected response", data);
             alert("Une erreur est survenue lors de l'ajout du projet.");//User add error alert
@@ -614,7 +614,7 @@ addModal2Button.addEventListener("click", function (event) {
 function resetModal2Form() {
     const modal2Form = document.getElementById("picture-add-form");
     if (modal2Form) {
-        console.log(" reste formulaire Avant le remplacement du champ de fichier");
+        console.log("Reset Modal 2Form");
         loadedPicturePlace.innerHTML = "";
         modal2Form.reset();  
     }
