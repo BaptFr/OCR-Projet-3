@@ -1,5 +1,4 @@
 const express = require('express');
-const app= require (./app);
 const path = require('path');
 const cors = require('cors')
 require('dotenv').config();
@@ -24,6 +23,5 @@ db.sequelize.sync().then(()=> console.log('db is ready'));
 app.use('/api/users', userRoutes);
 app.use('/api/categories', categoriesRoutes);
 app.use('/api/works', worksRoutes);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 module.exports = app;
