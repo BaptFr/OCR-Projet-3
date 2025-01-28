@@ -4,8 +4,11 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node server",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start-frontend": "npm run start --prefix ../front-end",
+    "build-frontend": "npm run build --prefix ../front-end",
+    "deploy": "npm run build-frontend && vercel --prod"
   },
   "author": "",
   "license": "ISC",

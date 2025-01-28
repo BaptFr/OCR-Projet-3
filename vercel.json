@@ -1,11 +1,11 @@
 {
   "builds": [
     {
-      "src": "back-end/server.js",
+      "src": "Backend/server.js",
       "use": "@vercel/node"
     },
     {
-      "src": "front-end/build/**/*",
+      "src": "FrontEnd/build/**/*",
       "use": "@vercel/static"
     }
   ],
