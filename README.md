@@ -1,5 +1,5 @@
-<img src ="https://icons.iconarchive.com/icons/wikipedia/flags/256/FR-France-Flag-icon.png" />
-# Portfolio-architecte-sophie-bluel
+<img src="https://icons.iconarchive.com/icons/wikipedia/flags/256/FR-France-Flag-icon.png](https://icons.iconarchive.com/icons/wikipedia/flags/256/FR-France-Flag-icon.png" />
+#  Portfolio-architecte-sophie-bluel
 
 ## Information pour le lancer le code
 
@@ -22,9 +22,11 @@ J'ai intégré la récupération des images de la galerie de manière dynamique 
 
 --------------------------------------------------------------------------------------------
 
+ <img src="https://www.drapeauxdespays.fr/data/flags/emoji/openmoji/256x256/gb.png" />
 #   Information to Run the Code
 Start the backend from your terminal by following the instructions in the ReadMe file.
 If you want to display both the backend and frontend code, open them in two separate instances of VSCode to avoid any issues.
+
 ##   Mission
 The goal was to work on designing an interior architect’s portfolio website in JavaScript with an already existing backend.
 
