@@ -1,4 +1,4 @@
-<img src="https://icons.iconarchive.com/icons/wikipedia/flags/256/FR-France-Flag-icon.png](https://icons.iconarchive.com/icons/wikipedia/flags/256/FR-France-Flag-icon.png" />
+<img src="https://www.drapeauxdespays.fr/data/flags/emoji/openmoji/256x256/fr.png" size="50px"/>
 #  Portfolio-architecte-sophie-bluel
 
 ## Information pour le lancer le code
