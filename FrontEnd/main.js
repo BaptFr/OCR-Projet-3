@@ -1,6 +1,6 @@
 
 // URL //
-const baseUrl = "http://localhost:5678";
+const baseUrl = "/api";
 
 
 //CALL API Projets //
