@@ -1,0 +1,19 @@
+const mongoose = require('mongoose');
+const { db } = require('../models/categories.model');
+
+const connectDB = async () => {
+    try  {
+        await mongoose.connect(process.env.MONGODB_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
+        console.log('Connecté à Mongo DB')
+    } catch (error) {
+        console.log('Connection à MongoDB échouée', err);
+        process.exit(1);
+    }
+};
+
+module.exports = connect db;
+
+
