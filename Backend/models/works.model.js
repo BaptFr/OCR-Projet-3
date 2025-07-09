@@ -1,18 +1,27 @@
+const mongoose = require('mongoose');
 
-module.exports = (sequelize, DataTypes) => {
-	const Works = sequelize.define(
-		"works",
-		{
-		title: {
-			type: DataTypes.STRING,
-			allowNull: false
-			},
-		imageUrl: {
-			type: DataTypes.STRING,
-			allowNull: false
-			}
-		},
-		{timestamps:false}
-	)
-	return Works
-}
+const workSchema = new mongoose.Schema({
+	title: {
+		type: String,
+		required: true
+	},
+	imageUrl: {
+		type: String,
+		required: true,
+	},
+	categoryId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Category',
+		required: true
+	},
+	userId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User',
+		required: true
+	},
+},
+	{
+	timestamps: false
+});
+
+module.exports = mongoose.model('work', workSchema);
