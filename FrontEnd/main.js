@@ -1,6 +1,6 @@
 
 // URL //
-const baseUrl = process.env.BASE_URL;
+const baseUrl = "https://sophie-bluel-portfolio.onrender.com/";
 
 
 //CALL API Projets //
