@@ -10,11 +10,11 @@ exports.signup = async (req, res) => {
 	}
 	try{
 		const hash = await bcrypt.hash(req.body.password, 10)
-		const user = {
-			email: req.body.email,
-			password: hash
-		}
-		await user.save();
+		const user = new User({
+      email: req.body.email,
+      password: hash
+    });
+    await user.save();
 		return res.status(201).json({message: 'User Created'})
 	}catch (err){
 		return res.status(500).send({
