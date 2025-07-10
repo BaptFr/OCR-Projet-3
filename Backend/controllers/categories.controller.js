@@ -1,20 +1,23 @@
-const db = require('./../models');
-const Categories = db.categories
+const Category = require('../models/category');
 
 exports.findAll = async (req, res) =>  {
-	try{
-		const works = await Categories.findAll();
-		return res.status(200).json(works);
-	}catch(err){
-		return res.status(500).json({ error: new Error('Something went wrong')})
-	}
-
-}
+	try {
+    const categories = await Category.find();
+    return res.status(200).json(categories);
+  } catch (err) {
+    return res.status(500).json({ error: new Error('Error to findAll') });
+  }
+};
 
 exports.create = async (req, res) => {
 
-	const category = await Categories.create({
-		name : req.body.name
-	})
-	return res.status(201).json(category)
-}
+	 try {
+    const category = new Category({
+      name: req.body.name
+    });
+    await category.save();
+    return res.status(201).json(category);
+  } catch (err) {
+    return res.status(500).json({ error: new Error('Error creating category') });
+  }
+};

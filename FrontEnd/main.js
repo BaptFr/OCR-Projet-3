@@ -1,6 +1,6 @@
 
 // URL //
-const baseUrl = "/api";
+const baseUrl = "https://sophie-bluel-portfolio.onrender.com";
 
 
 //CALL API Projets //
@@ -569,9 +569,9 @@ addModal2Button.addEventListener("click", function (event) {
     }
     
     const formData = new FormData();
-    formData.append("image", selectedFile);
+    formData.append("imageUrl", selectedFile);
     formData.append("title", titreValue);
-    formData.append("category", categorieValue);
+    formData.append("categoryId", categorieValue);
     const token = localStorage.getItem("token");
      
     if (!token) {

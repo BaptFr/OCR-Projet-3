@@ -1,7 +1,6 @@
-const db = require('./../models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const Users = db.users;
+const User = require ('../models/user');
 
 exports.signup = async (req, res) => {
 	if(!req.body.email || !req.body.password){
@@ -11,11 +10,11 @@ exports.signup = async (req, res) => {
 	}
 	try{
 		const hash = await bcrypt.hash(req.body.password, 10)
-		const user = {
-			email: req.body.email,
-			password: hash
-		}
-		await Users.create(user)
+		const user = new User({
+      email: req.body.email,
+      password: hash
+    });
+    await user.save();
 		return res.status(201).json({message: 'User Created'})
 	}catch (err){
 		return res.status(500).send({
@@ -26,22 +25,26 @@ exports.signup = async (req, res) => {
 }
 
 exports.login = async (req, res) => {
-	const user = await Users.findOne({where: {email: req.body.email}});
-	if(user === null){
-		return res.status(404).json({message: 'user not found'})
-	}else {
-		const valid = await bcrypt.compare(req.body.password, user.password)
-		if(!valid){
-			return res.status(401).json({ error: new Error('Not Authorized') })
-		}
-		return res.status(200).json({
-			userId: user.id,
-			token: jwt.sign(
-				{userId : user.id},
-				process.env.TOKEN_SECRET,
-				{ expiresIn: '24h' }
-			)
-		})
+	try {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
 
-	}
-}
+    const valid = await bcrypt.compare(req.body.password, user.password);
+    if (!valid) {
+      return res.status(401).json({ error: new Error('Not Authorized') });
+    }
+
+    return res.status(200).json({
+      userId: user._id,
+      token: jwt.sign(
+        { userId: user._id },
+        process.env.TOKEN_SECRET,
+        { expiresIn: '24h' }
+      )
+    });
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
