@@ -1,4 +1,4 @@
-const Category = require('../models/Category');
+const Category = require('../models/category');
 
 exports.findAll = async (req, res) =>  {
 	try {

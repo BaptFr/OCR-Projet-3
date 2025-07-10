@@ -1,6 +1,6 @@
 const cloudinary = require('cloudinary').v2;
 const streamifier = require('streamifier');
-const Work = require('../models/Work');
+const Work = require('../models/work');
 
 
 cloudinary.config({
