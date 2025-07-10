@@ -1,6 +1,6 @@
 
 // URL //
-const baseUrl = "/api";
+const baseUrl = process.env.BASE_URL;
 
 
 //CALL API Projets //
