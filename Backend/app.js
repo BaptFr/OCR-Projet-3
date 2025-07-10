@@ -14,7 +14,11 @@ const connectDB = require('./config/mongoose');
 
 connectDB();
 
-app.use(express.static(path.join(__dirname, 'FrontEnd')));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'FrontEnd', 'index.html'));
+});
+
+app.use(express.static(path.join(__dirname, '..', 'FrontEnd')));
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -31,7 +35,5 @@ app.use('/api/users', userRoutes);
 app.use('/api/categories', categoriesRoutes);
 app.use('/api/works', worksRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'FrontEnd', 'index.html'));
-});
+
 module.exports = app;
