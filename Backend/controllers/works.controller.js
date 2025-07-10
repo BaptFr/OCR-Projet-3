@@ -1,7 +1,7 @@
 const cloudinary = require('cloudinary').v2;
 const streamifier = require('streamifier');
-const db = require('../models');
-const Works = db.works;
+const Work = require('../models/Work');
+
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -9,14 +9,21 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+
+//Tous les projets
 exports.findAll = async (req, res) =>  {
-	const works = await Works.findAll({include: 'category'});
-	return res.status(200).json(works);
-}
+	try {
+    const works = await Work.find().populate('category');
+    return res.status(200).json(works);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'Erreur serveur' });
+  }
+};
 
 exports.create = async (req, res) => {
   try {
-    // Upload vers Cloudinary (upload en stream depuis req.file.buffer)
+    // Upload  Cloudinary (upload en stream depuis req.file.buffer)
     const result = await new Promise((resolve, reject) => {
       const stream = cloudinary.uploader.upload_stream(
         { folder: 'sophie-bluel' },
@@ -33,26 +40,27 @@ exports.create = async (req, res) => {
     const userId = req.auth.userId;
 
     //Stockage URL Cloudinary dans la base
-    const work = await Works.create({
+    const work =new Work({
       title,
       imageUrl: result.secure_url,
-      categoryId,
-      userId,
+      category: categoryId,
+      user: userId,
     });
+
+    await work.save();
 
     return res.status(201).json(work);
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ error: new Error('Something went wrong') });
+    return res.status(500).json({ error:'Something went wrong' });
   }
 };
 
 exports.delete = async (req, res) => {
 	try{
-		await Works.destroy({where:{id: req.params.id}})
-		return res.status(204).json({message: 'Work Deleted Successfully'})
+    await Work.findByIdAndDelete(req.params.id);
+		return res.status(204).json({message: 'Work Deleted Successfully'});
 	}catch(e){
-		return res.status(500).json({error: new Error('Something went wrong')})
+		return res.status(500).json({ error: 'Something went wrong' });
 	}
-
-}
+};
