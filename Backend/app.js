@@ -21,9 +21,6 @@ app.use(helmet({
       crossOriginResourcePolicy: false,
     }));
 
-//Ajout bascule MongoDB
-
-
 
 const userRoutes = require('./routes/user.routes');
 const categoriesRoutes = require('./routes/categories.routes');
