@@ -7,18 +7,12 @@ const MIME_TYPE = {
 	'image/webp': 'webp',
 }
 
-const storage = multer.diskStorage({
-	destination: function (req, file, callback) {
-		callback(null, './images')
-	},
-	filename:  (req, file, callback) => {
-		const filename = file.originalname.split(' ').join('_')
-		const filenameArray = filename.split('.')
-		filenameArray.pop()
-		const filenameWithoutExtention = filenameArray.join('.')
-			const extension = MIME_TYPE[file.mimetype]
-		callback(null, filenameWithoutExtention + Date.now() + '.' + extension)
-	}
-})
+const storage = multer.memoryStorage();
 
-module.exports = multer({storage}).single('image')
+const fileFilter = (req, file, callback) => {
+  const isValid = !!MIME_TYPE[file.mimetype];
+  const error = isValid ? null : new Error('Invalid mime type');
+  callback(error, isValid);
+};
+
+module.exports = multer({ storage, fileFilter }).single('image');

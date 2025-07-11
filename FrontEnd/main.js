@@ -549,7 +549,7 @@ function conditionsConfirmationButton(){
 
     
 // API POST NEW PROJET//
-//Fetch                                        
+//Fetch 
 addModal2Button.addEventListener("click", function (event) {
      event.preventDefault();
     const titreValue = titreInput.value.trim();
@@ -567,13 +567,13 @@ addModal2Button.addEventListener("click", function (event) {
         alert("Veuillez limiter le titre à 30 caractères")
         return;
     }
-    
+
     const formData = new FormData();
-    formData.append("imageUrl", selectedFile);
+    formData.append("image", selectedFile);
     formData.append("title", titreValue);
     formData.append("categoryId", categorieValue);
     const token = localStorage.getItem("token");
-     
+
     if (!token) {
         console.error("Unfound token in the localStorage.");
         return;
@@ -592,12 +592,12 @@ addModal2Button.addEventListener("click", function (event) {
         }
         return response.json();
             })
-    .then(data => {   
+    .then(data => {
         if (data !== null) {
             alert("Le projet a bien été ajouté.");//User add success alert
             console.log("Projet ADDED SUCCESS", data);
             closeModal();
-        } else { 
+        } else {
             console.error("Error adding Projet: Unexpected response", data);
             alert("Une erreur est survenue lors de l'ajout du projet.");//User add error alert
         };
@@ -605,7 +605,6 @@ addModal2Button.addEventListener("click", function (event) {
     .catch(error => {
          console.error("Projet ADDED ERROR:", error);
     });
-        
 });
 
 

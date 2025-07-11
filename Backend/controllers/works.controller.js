@@ -36,15 +36,15 @@ exports.create = async (req, res) => {
     });
 
     const title = req.body.title;
-    const categoryId = req.body.category;
+    const categoryId = req.body.categoryId;
     const userId = req.auth.userId;
 
     //Stockage URL Cloudinary dans la base
     const work =new Work({
       title,
       imageUrl: result.secure_url,
-      category: categoryId,
-      user: userId,
+      categoryId,
+      userId,
     });
 
     await work.save();
