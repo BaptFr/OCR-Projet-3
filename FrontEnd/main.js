@@ -630,7 +630,7 @@ function resetModal2Form() {
     if (modal2Form) {
         console.log("Reset Modal 2Form");
         loadedPicturePlace.innerHTML = "";
-        modal2Form.reset();  
+        modal2Form.reset();
     }
 };
 function clearFileInput() {
@@ -639,16 +639,3 @@ function clearFileInput() {
         input.remove();
     });
 };
-
-const form = document.getElementById("contactForm");
-const confirmation = document.getElementById("confirmationMessage");
-form.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    // Simuler un délai d'envoi
-    setTimeout(() => {
-      confirmation.style.display = "block"; // Affichage HTML
-      form.reset();
-    }, 1000);
-  });
-
