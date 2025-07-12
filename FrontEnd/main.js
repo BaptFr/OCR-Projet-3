@@ -108,8 +108,6 @@ filtersList.style.margin = "0";
 fetch(baseUrl + "/api/categories")
     .then(response => response.json())
     .then(filters => {
-        const allProjetsFilter = { id: "all", name: "Tous" }; //New filter add
-        filters.unshift(allProjetsFilter);
         filters.forEach(filter => {
             const filterItem = createFilterElement(filter);
             filtersList.appendChild(filterItem);
@@ -126,7 +124,7 @@ function filterProjectsByCategory(categoryId) {
     if (categoryId === "all") {
         updateGallery(allProjets);
     } else {
-    const filteredProjets = allProjets.filter(projet => projet.categoryId === categoryId);
+const filteredProjets = allProjets.filter(projet => projet.categoryId == categoryId);
     updateGallery(filteredProjets);
     };
     console.log("Projets filtered.")
@@ -393,7 +391,10 @@ function updateModal1(apiProjets){
 function deleteElement(projectIdDelete) {
     const userConfirmed = window.confirm("Voulez-vous vraiment supprimer le projet ?");
     const token = localStorage.getItem("token");
-
+      if (!token) {
+        alert("Token manquant. Veuillez vous reconnecter.");
+        return;
+    }
     if (userConfirmed) {
         fetch(baseUrl + "/api/works/" + projectIdDelete, {
             method: "DELETE",
@@ -412,9 +413,12 @@ function deleteElement(projectIdDelete) {
                     .catch(error => console.error("Error update Modal gallery projects (fetch)", error));
             } else {
                 console.error("Error deleting Projet: " + response.status);
-                return response.json();
-            }  
-            
+                return response.json().then(errorData => {
+                    console.error("Erreur API:", errorData);
+                    alert("Erreur lors de la suppression du projet : " + (errorData.message || response.status));
+                });
+            }
+
         })
         .catch(error => {
             console.error("Error deleting Projet", error);

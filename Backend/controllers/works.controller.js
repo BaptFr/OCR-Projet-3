@@ -13,7 +13,7 @@ cloudinary.config({
 //Tous les projets
 exports.findAll = async (req, res) =>  {
 	try {
-    const works = await Work.find().populate('category');
+    const works = await Work.find().populate('categoryId');
     return res.status(200).json(works);
   } catch (err) {
     console.error(err);
