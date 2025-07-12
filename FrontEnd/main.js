@@ -439,7 +439,7 @@ const titreInput = document.getElementById("titre");
 const categorieSelect = document.getElementById("categorie");
 const fileInput = document.getElementById("file-input") 
 
-    //Funtction add Projet
+    //Function add Projet
 function addProjetModal() {
     //Refresh pict visual
     loadedPicturePlace.innerHTML = "";
@@ -553,7 +553,7 @@ function conditionsConfirmationButton(){
 addModal2Button.addEventListener("click", function (event) {
      event.preventDefault();
     const titreValue = titreInput.value.trim();
-    const categorieValue = categorieSelect.value.trim()
+    const categorieId = categorieSelect.value;
     const maxLengthTitle = 30;
     //File verification
     let selectedFile = fileInput.files[0];
@@ -572,8 +572,8 @@ addModal2Button.addEventListener("click", function (event) {
     formData.append("file", selectedFile);
     formData.append("title", titreValue);
     formData.append("categoryId", categorieId);
-    const token = localStorage.getItem("token");
 
+    const token = localStorage.getItem("token");
     if (!token) {
         console.error("Unfound token in the localStorage.");
         return;
