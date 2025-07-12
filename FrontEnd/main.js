@@ -569,9 +569,9 @@ addModal2Button.addEventListener("click", function (event) {
     }
 
     const formData = new FormData();
-    formData.append("image", selectedFile);
-    formData.append("title", titreValue);
-    formData.append("categoryId", categorieValue);
+    formData.append("file", image);
+    formData.append("title", titre);
+    formData.append("categoryId", categorieId);
     const token = localStorage.getItem("token");
 
     if (!token) {
@@ -581,10 +581,10 @@ addModal2Button.addEventListener("click", function (event) {
 
     fetch(baseUrl +"/api/works", {
         method: "POST",
-        body: formData,
          headers:{
-            "Authorization": "Bearer " + token,
+            Authorization: `Bearer ${token}`
         },
+        body: formData
     })
     .then(response => {
         if (!response.ok) {
