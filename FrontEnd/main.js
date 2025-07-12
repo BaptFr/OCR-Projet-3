@@ -63,7 +63,7 @@ function createFilterElement(filter) {
     const filterLink = document.createElement("a");
     filterLink.href = "#projets";
     filterLink.textContent = filter.name;
-    
+
     filterItem.appendChild(filterLink);
 
     filterLink.style.textDecoration = "none";
@@ -107,6 +107,12 @@ fetch(baseUrl + "/api/categories")
     .then(response => response.json())
     .then(filters => {
         filters.unshift({ id: "all", name: "Tous" });
+        filters = filters.map(filter => {
+            return {
+                id: filter._id, // On ajoute un champ `id` pour compatibilité avec le reste du code
+                name: filter.name
+            };
+        });
         filters.forEach(filter => {
             const filterItem = createFilterElement(filter);
             filtersList.appendChild(filterItem);
@@ -123,14 +129,16 @@ function filterProjectsByCategory(categoryId) {
     if (categoryId === "all") {
         updateGallery(allProjets);
     } else {
-    const filteredProjets = allProjets.filter(projet => projet.categoryId == categoryId);
-    updateGallery(filteredProjets);
+        const filteredProjets = allProjets.filter(projet => {
+            return projet.categoryId && projet.categoryId._id === categoryId;
+    });
+        updateGallery(filteredProjets);
     };
     console.log("Projets filtered.")
 };
 
 
-//Filters activation & desactivation 
+//Filters activation & desactivation
 function activateFilter(activeFilterItem){
     const allFilterItems = document.querySelectorAll(".categories li");
     allFilterItems.forEach(item => {
