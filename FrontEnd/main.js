@@ -106,7 +106,6 @@ filtersList.style.margin = "0";
 fetch(baseUrl + "/api/categories")
     .then(response => response.json())
     .then(filters => {
-        filters = filters.map(f => ({ id: f._id, name: f.name }));
         filters.unshift({ id: "all", name: "Tous" });
         filters.forEach(filter => {
             const filterItem = createFilterElement(filter);
