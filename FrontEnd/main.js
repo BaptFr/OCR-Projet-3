@@ -573,7 +573,7 @@ addModal2Button.addEventListener("click", function (event) {
     }
 
     const formData = new FormData();
-    formData.append("file", selectedFile);
+    formData.append("image", selectedFile); //'image' config multer
     formData.append("title", titreValue);
     formData.append("categoryId", categorieId);
 
