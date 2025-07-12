@@ -640,3 +640,15 @@ function clearFileInput() {
     });
 };
 
+const form = document.getElementById("contactForm");
+const confirmation = document.getElementById("confirmationMessage");
+form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    // Simuler un délai d'envoi
+    setTimeout(() => {
+      confirmation.style.display = "block"; // Affichage HTML
+      form.reset();
+    }, 1000);
+  });
+
