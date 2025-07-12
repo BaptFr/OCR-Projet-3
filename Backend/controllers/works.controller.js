@@ -23,6 +23,8 @@ exports.findAll = async (req, res) =>  {
 
 exports.create = async (req, res) => {
   try {
+    console.log("REQ BODY:", req.body);
+    console.log("REQ FILE:", req.file);
     // Upload  Cloudinary (upload en stream depuis req.file.buffer)
     const result = await new Promise((resolve, reject) => {
       const stream = cloudinary.uploader.upload_stream(
