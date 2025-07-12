@@ -85,7 +85,7 @@ function createFilterElement(filter) {
         console.log("Filter name :", filter.name, ", category and id :", filter.id);
         var projetsSection = document.getElementById("mes-projets-title");
         projetsSection.scrollIntoView();
-        filterProjectsByCategory(filter.id);
+        filterProjectsByCategory(filter._id);
         activateFilter(filterItem);
         activateFilterStyle(filterLink);    
     });
@@ -106,6 +106,7 @@ filtersList.style.margin = "0";
 fetch(baseUrl + "/api/categories")
     .then(response => response.json())
     .then(filters => {
+        filters = filters.map(f => ({ id: f._id, name: f.name }));
         filters.unshift({ id: "all", name: "Tous" });
         filters.forEach(filter => {
             const filterItem = createFilterElement(filter);
