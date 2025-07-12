@@ -65,9 +65,7 @@ function createFilterElement(filter) {
     filterLink.textContent = filter.name;
     
     filterItem.appendChild(filterLink);
-    filterItem.classList.add("active");
-    
-    filterLink.classList.add("active");
+
     filterLink.style.textDecoration = "none";
     filterLink.style.color = "#1D6154";
     //Filters style
@@ -108,6 +106,7 @@ filtersList.style.margin = "0";
 fetch(baseUrl + "/api/categories")
     .then(response => response.json())
     .then(filters => {
+        filters.unshift({ id: "all", name: "Tous" });
         filters.forEach(filter => {
             const filterItem = createFilterElement(filter);
             filtersList.appendChild(filterItem);
@@ -124,7 +123,7 @@ function filterProjectsByCategory(categoryId) {
     if (categoryId === "all") {
         updateGallery(allProjets);
     } else {
-const filteredProjets = allProjets.filter(projet => projet.categoryId == categoryId);
+    const filteredProjets = allProjets.filter(projet => projet.categoryId == categoryId);
     updateGallery(filteredProjets);
     };
     console.log("Projets filtered.")
