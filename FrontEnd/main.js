@@ -101,18 +101,18 @@ filtersList.style.flexDirection = "row";
 filtersList.style.justifyContent = "center";
 filtersList.style.gap = "10px";
 filtersList.style.margin = "0";
-    
+
 //Categories fetch API & DOM add
 fetch(baseUrl + "/api/categories")
     .then(response => response.json())
     .then(filters => {
-        filters.unshift({ id: "all", name: "Tous" });
         filters = filters.map(filter => {
             return {
                 id: filter._id,
                 name: filter.name
             };
         });
+        filters.unshift({ id: "all", name: "Tous", categoryId: "all" });
         filters.forEach(filter => {
             const filterItem = createFilterElement(filter);
             filtersList.appendChild(filterItem);
