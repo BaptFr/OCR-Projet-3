@@ -63,11 +63,9 @@ function createFilterElement(filter) {
     const filterLink = document.createElement("a");
     filterLink.href = "#projets";
     filterLink.textContent = filter.name;
-    
+
     filterItem.appendChild(filterLink);
-    filterItem.classList.add("active");
-    
-    filterLink.classList.add("active");
+
     filterLink.style.textDecoration = "none";
     filterLink.style.color = "#1D6154";
     //Filters style
@@ -84,7 +82,7 @@ function createFilterElement(filter) {
     filterItem.style.cursor = "pointer";
     //Filters eventListener selection
     filterItem.addEventListener("click", () => {
-        console.log("Filter name :", filter.name, ", category and id :", filter.id);
+        console.log("Filter name :", filter.name, ", category id :", filter.id);
         var projetsSection = document.getElementById("mes-projets-title");
         projetsSection.scrollIntoView();
         filterProjectsByCategory(filter.id);
@@ -103,13 +101,18 @@ filtersList.style.flexDirection = "row";
 filtersList.style.justifyContent = "center";
 filtersList.style.gap = "10px";
 filtersList.style.margin = "0";
-    
+
 //Categories fetch API & DOM add
 fetch(baseUrl + "/api/categories")
     .then(response => response.json())
     .then(filters => {
-        const allProjetsFilter = { id: "all", name: "Tous" }; //New filter add
-        filters.unshift(allProjetsFilter);
+        filters = filters.map(filter => {
+            return {
+                id: filter._id,
+                name: filter.name
+            };
+        });
+        filters.unshift({ id: "all", name: "Tous", categoryId: "all" });
         filters.forEach(filter => {
             const filterItem = createFilterElement(filter);
             filtersList.appendChild(filterItem);
@@ -126,14 +129,16 @@ function filterProjectsByCategory(categoryId) {
     if (categoryId === "all") {
         updateGallery(allProjets);
     } else {
-    const filteredProjets = allProjets.filter(projet => projet.categoryId === categoryId);
-    updateGallery(filteredProjets);
+        const filteredProjets = allProjets.filter(
+            projet => projet.categoryId && projet.categoryId._id === categoryId
+    );
+        updateGallery(filteredProjets);
     };
     console.log("Projets filtered.")
 };
 
 
-//Filters activation & desactivation 
+//Filters activation & desactivation
 function activateFilter(activeFilterItem){
     const allFilterItems = document.querySelectorAll(".categories li");
     allFilterItems.forEach(item => {
@@ -381,7 +386,7 @@ function updateModal1(apiProjets){
             
 
             trashLogo.addEventListener("click", () => {
-                deleteElement(item.id)
+                deleteElement(item._id)
             
             });
            console.log("Modal 1 - Gallery updated");    
@@ -393,7 +398,10 @@ function updateModal1(apiProjets){
 function deleteElement(projectIdDelete) {
     const userConfirmed = window.confirm("Voulez-vous vraiment supprimer le projet ?");
     const token = localStorage.getItem("token");
-
+      if (!token) {
+        alert("Token manquant. Veuillez vous reconnecter.");
+        return;
+    }
     if (userConfirmed) {
         fetch(baseUrl + "/api/works/" + projectIdDelete, {
             method: "DELETE",
@@ -412,9 +420,12 @@ function deleteElement(projectIdDelete) {
                     .catch(error => console.error("Error update Modal gallery projects (fetch)", error));
             } else {
                 console.error("Error deleting Projet: " + response.status);
-                return response.json();
-            }  
-            
+                return response.json().then(errorData => {
+                    console.error("Erreur API:", errorData);
+                    alert("Erreur lors de la suppression du projet : " + (errorData.message || response.status));
+                });
+            }
+
         })
         .catch(error => {
             console.error("Error deleting Projet", error);
@@ -439,7 +450,7 @@ const titreInput = document.getElementById("titre");
 const categorieSelect = document.getElementById("categorie");
 const fileInput = document.getElementById("file-input") 
 
-    //Funtction add Projet
+    //Function add Projet
 function addProjetModal() {
     //Refresh pict visual
     loadedPicturePlace.innerHTML = "";
@@ -458,7 +469,7 @@ fetch(baseUrl + "/api/categories")
     data.unshift(emptyOption);
     data.forEach(category => {
         const option = document.createElement("option");
-        option.value = category.id; 
+        option.value = category._id;  //_id MongoDB
         option.textContent = category.name; 
         categorieSelect.appendChild(option);
     });
@@ -549,11 +560,15 @@ function conditionsConfirmationButton(){
 
     
 // API POST NEW PROJET//
-//Fetch                                        
+//Fetch 
 addModal2Button.addEventListener("click", function (event) {
      event.preventDefault();
     const titreValue = titreInput.value.trim();
-    const categorieValue = categorieSelect.value.trim()
+    const categorieId = categorieSelect.value;
+    if (!categorieId) {
+    alert("Veuillez sélectionner une catégorie valide");
+    return;
+}
     const maxLengthTitle = 30;
     //File verification
     let selectedFile = fileInput.files[0];
@@ -567,13 +582,13 @@ addModal2Button.addEventListener("click", function (event) {
         alert("Veuillez limiter le titre à 30 caractères")
         return;
     }
-    
+
     const formData = new FormData();
-    formData.append("imageUrl", selectedFile);
+    formData.append("image", selectedFile); //'image' config multer
     formData.append("title", titreValue);
-    formData.append("categoryId", categorieValue);
+    formData.append("categoryId", categorieId);
+
     const token = localStorage.getItem("token");
-     
     if (!token) {
         console.error("Unfound token in the localStorage.");
         return;
@@ -581,10 +596,10 @@ addModal2Button.addEventListener("click", function (event) {
 
     fetch(baseUrl +"/api/works", {
         method: "POST",
-        body: formData,
          headers:{
-            "Authorization": "Bearer " + token,
+            Authorization: `Bearer ${token}`
         },
+        body: formData
     })
     .then(response => {
         if (!response.ok) {
@@ -592,12 +607,12 @@ addModal2Button.addEventListener("click", function (event) {
         }
         return response.json();
             })
-    .then(data => {   
+    .then(data => {
         if (data !== null) {
             alert("Le projet a bien été ajouté.");//User add success alert
             console.log("Projet ADDED SUCCESS", data);
             closeModal();
-        } else { 
+        } else {
             console.error("Error adding Projet: Unexpected response", data);
             alert("Une erreur est survenue lors de l'ajout du projet.");//User add error alert
         };
@@ -605,7 +620,6 @@ addModal2Button.addEventListener("click", function (event) {
     .catch(error => {
          console.error("Projet ADDED ERROR:", error);
     });
-        
 });
 
 
@@ -616,7 +630,7 @@ function resetModal2Form() {
     if (modal2Form) {
         console.log("Reset Modal 2Form");
         loadedPicturePlace.innerHTML = "";
-        modal2Form.reset();  
+        modal2Form.reset();
     }
 };
 function clearFileInput() {
@@ -625,4 +639,3 @@ function clearFileInput() {
         input.remove();
     });
 };
-

@@ -13,7 +13,7 @@ cloudinary.config({
 //Tous les projets
 exports.findAll = async (req, res) =>  {
 	try {
-    const works = await Work.find().populate('category');
+    const works = await Work.find().populate('categoryId');
     return res.status(200).json(works);
   } catch (err) {
     console.error(err);
@@ -23,6 +23,8 @@ exports.findAll = async (req, res) =>  {
 
 exports.create = async (req, res) => {
   try {
+    console.log("REQ BODY:", req.body);
+    console.log("REQ FILE:", req.file);
     // Upload  Cloudinary (upload en stream depuis req.file.buffer)
     const result = await new Promise((resolve, reject) => {
       const stream = cloudinary.uploader.upload_stream(
@@ -36,15 +38,15 @@ exports.create = async (req, res) => {
     });
 
     const title = req.body.title;
-    const categoryId = req.body.category;
+    const categoryId = req.body.categoryId;
     const userId = req.auth.userId;
 
     //Stockage URL Cloudinary dans la base
     const work =new Work({
       title,
       imageUrl: result.secure_url,
-      category: categoryId,
-      user: userId,
+      categoryId,
+      userId,
     });
 
     await work.save();
@@ -59,7 +61,7 @@ exports.create = async (req, res) => {
 exports.delete = async (req, res) => {
 	try{
     await Work.findByIdAndDelete(req.params.id);
-		return res.status(204).json({message: 'Work Deleted Successfully'});
+		return res.status(200).json({message: 'Work Deleted Successfully'});
 	}catch(e){
 		return res.status(500).json({ error: 'Something went wrong' });
 	}
