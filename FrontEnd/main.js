@@ -82,10 +82,10 @@ function createFilterElement(filter) {
     filterItem.style.cursor = "pointer";
     //Filters eventListener selection
     filterItem.addEventListener("click", () => {
-        console.log("Filter name :", filter.name, ", category and id :", filter.id);
+        console.log("Filter name :", filter.name, ", category id :", filter.id);
         var projetsSection = document.getElementById("mes-projets-title");
         projetsSection.scrollIntoView();
-        filterProjectsByCategory(filter._id);
+        filterProjectsByCategory(filter.id);
         activateFilter(filterItem);
         activateFilterStyle(filterLink);    
     });
@@ -109,7 +109,7 @@ fetch(baseUrl + "/api/categories")
         filters.unshift({ id: "all", name: "Tous" });
         filters = filters.map(filter => {
             return {
-                id: filter._id, // On ajoute un champ `id` pour compatibilité avec le reste du code
+                id: filter._id,
                 name: filter.name
             };
         });
@@ -129,9 +129,9 @@ function filterProjectsByCategory(categoryId) {
     if (categoryId === "all") {
         updateGallery(allProjets);
     } else {
-        const filteredProjets = allProjets.filter(projet => {
-            return projet.categoryId && projet.categoryId._id === categoryId;
-    });
+        const filteredProjets = allProjets.filter(
+            projet => projet.categoryId && projet.categoryId._id === categoryId
+    );
         updateGallery(filteredProjets);
     };
     console.log("Projets filtered.")
