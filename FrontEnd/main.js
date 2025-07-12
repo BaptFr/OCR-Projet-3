@@ -386,7 +386,7 @@ function updateModal1(apiProjets){
             
 
             trashLogo.addEventListener("click", () => {
-                deleteElement(item.id)
+                deleteElement(item._id)
             
             });
            console.log("Modal 1 - Gallery updated");    
