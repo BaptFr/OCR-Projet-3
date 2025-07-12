@@ -569,8 +569,8 @@ addModal2Button.addEventListener("click", function (event) {
     }
 
     const formData = new FormData();
-    formData.append("file", image);
-    formData.append("title", titre);
+    formData.append("file", selectedFile);
+    formData.append("title", titreValue);
     formData.append("categoryId", categorieId);
     const token = localStorage.getItem("token");
 
