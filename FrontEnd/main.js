@@ -458,7 +458,7 @@ fetch(baseUrl + "/api/categories")
     data.unshift(emptyOption);
     data.forEach(category => {
         const option = document.createElement("option");
-        option.value = category.id; 
+        option.value = category._id;  //_id MongoDB
         option.textContent = category.name; 
         categorieSelect.appendChild(option);
     });
@@ -554,6 +554,10 @@ addModal2Button.addEventListener("click", function (event) {
      event.preventDefault();
     const titreValue = titreInput.value.trim();
     const categorieId = categorieSelect.value;
+    if (!categorieId) {
+    alert("Veuillez sélectionner une catégorie valide");
+    return;
+}
     const maxLengthTitle = 30;
     //File verification
     let selectedFile = fileInput.files[0];
