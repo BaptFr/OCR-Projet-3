@@ -1,6 +1,8 @@
-🇬🇧 This README is also available in English for international contributors and reviewers. The English version is provided below ⬇️
+<h1 align="center"> Portfolio Architecte d’Intérieur 🏠🎨 </h1>
 
-# Portfolio Architecte d’Intérieur 🏠🎨
+<p align="center">
+<img src="https://i.imgur.com/H1xmSir.png" width="800" />
+</p>
 
 ## Contexte du projet 📋
 Conception et développement d’un site portfolio destiné à présenter les travaux d’une architecte d’intérieur.
