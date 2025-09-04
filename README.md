@@ -1,6 +1,8 @@
 <h1 align="center"> Portfolio Architecte d’Intérieur 🏠🎨 </h1>
 
 <h2 align="center"> <a href="https://sophie-bluel-portfolio.onrender.com/"> 👉 Accéder au site 👈 </a>  </h2> 
+<p align="center"> 🌏 Le site peut mettre quelques secondes à charger au premier accès, car Render met l’application en veille lorsqu’elle n’est pas consultée. Cela permet d’économiser des ressources et de réduire la consommation d’énergie.  </p>
+
 <p align="center">
 <img src="https://i.imgur.com/H1xmSir.png" width="600" />
 </p>
