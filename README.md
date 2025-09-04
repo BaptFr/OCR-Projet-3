@@ -1,11 +1,11 @@
 <h1 align="center"> Portfolio Architecte d’Intérieur 🏠🎨 </h1>
 
-<h2 align="center"> <a href="[https://mon-vieux-grimoire-xggk.onrender.com](https://baptsophiebluel-zb8aeqw6i-baptistes-projects-a51abe18.vercel.app/)"> 👉 Accéder au site 👈 </a>  </h2> 
+<h2 align="center"> <a href="https://mon-vieux-grimoire-xggk.onrender.com"> 👉 Accéder au site 👈 </a>  </h2> 
 <p align="center">
 <img src="https://i.imgur.com/H1xmSir.png" width="600" />
 </p>
 
-## Contexte du projet 📋
+## 📋 Contexte du projet 
 Conception et développement d’un site portfolio destiné à présenter les travaux d’une architecte d’intérieur.
 Le site comprend une partie publique pour afficher les réalisations et un espace administrateur permettant au client de gérer les contenus (connexion, ajout de médias).
 
@@ -15,12 +15,12 @@ Les livrables fournis pour le projet comprenaient :
 - 🖼️ Maquette design sur Figma.
 - 📊 Tableau Kanban listant les tâches à réaliser.
 
-## Objectifs et missions principales 🎯
+## 🎯 Objectifs et missions principales 
 - 🏗️ Développer la page de présentation des travaux en JS / CSS. Rendu dynamique.
 - 🔐 Créer la page de connexion administrateur (développement complet from scratch).
 - 📤 Implémenter une modale d’upload de nouveaux médias (développement complet from scratch).
 
-## Étapes réalisées 🛠️
+## 🛠️ Étapes réalisées 
 - 📚 Étude et approfondissement des concepts JavaScript (variables, fonctions, DOM, événements, formats JSON et FormData).
 - 🌐 Compréhension et utilisation de l’API Fetch pour effectuer les requêtes HTTP nécessaires (GET, POST, PUT, DELETE) vers le back-end.
 - 🎨 Développement des fonctionnalités en respectant la maquette Figma.
@@ -29,7 +29,7 @@ Les livrables fournis pour le projet comprenaient :
 - 💾 Mise en place du stockage des images sur Cloudinary, avec sauvegarde des URLs dans la base de données.
 - ☁️ Déploiement complet de l’application back-end sur Render, incluant la connexion à la base et au service Cloudinary.
 
-## Résultat ✅
+## ✅ Résultat 
 Un site fonctionnel permettant :
 - 🖥️ Consultation des travaux de l’architecte dans une interface responsive.
 - 🔐 Authentification sécurisée de l’administrateur.
@@ -49,12 +49,12 @@ Project deliverables included:
 - 💾 SQLite database managed via Sequelize for persistent data storage.
 - 📊 Kanban board listing assigned tasks
 
-## Main Objectives and Tasks 🎯
+## 🎯 Main Objectives and Tasks 
 - 🏗️ Develop the project showcase page using JS/CSS with dynamic rendering.
 - 🔐 Build the admin login page from scratch.
 - 📤 Implement a modal for uploading new media, built from scratch.
 
-## Work Done 🛠️
+## 🛠️ Work Done 
 - 📚 Studied and deepened knowledge of JavaScript concepts (variables, functions, DOM, events, JSON and FormData formats).
 - 🌐 Used the Fetch API to perform necessary HTTP requests (GET, POST, PUT, DELETE) to the back-end.
 - 🎨 Developed features following the Figma design mockups.
@@ -63,7 +63,7 @@ Project deliverables included:
 - 💾 Implemented image storage on Cloudinary, with URLs saved in the database.
 - ☁️ Full back-end application deployment on Render, including database and Cloudinary service integration.
 
-## Outcome ✅
+## ✅ Outcome 
 A fully functional website that allows:
 - 🖥️ Browsing the designer’s work in a responsive interface.
 - 🔐 Secure administrator authentication.
