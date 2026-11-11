@@ -20,7 +20,7 @@
     "express": "^5.2.1",
     "helmet": "^5.0.2",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^8.24.1",
+    "mongoose": "^8.24.7",
     "multer": "^2.5.0",
     "sequelize": "^6.37.8",
     "sqlite3": "^6.0.1",
